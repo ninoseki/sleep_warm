@@ -1,0 +1,16 @@
+---
+:headers:
+  :Server: Apache/2.0.48
+  :Content-Type: text/html
+:body: |
+  <html>
+
+  <head>
+    <title>hello</title>
+  </head>
+
+  <body>
+    <h1>hello</h1>
+  </body>
+
+  </html>

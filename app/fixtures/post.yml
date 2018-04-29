@@ -1,0 +1,25 @@
+---
+:headers:
+  :Server: Apache/2.0.48
+  :Content-Type: text/html
+:body: |
+  <html>
+
+  <head>
+    <title>login</title>
+  </head>
+
+  <body>
+    <form action="/login" method="post">
+      <p>
+        name:
+        <input type="text" id="name" />
+        <br> password:
+        <input type="password" id="pass" />
+        <br>
+        <button type="submit">login</button>
+      </p>
+    </form>
+  </body>
+
+  </html>
