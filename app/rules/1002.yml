@@ -1,0 +1,10 @@
+---
+meta:
+  id: 1002
+  noe: Login request sample(POST)
+trigger:
+  method: POST
+  uri: "/login"
+response:
+  status: 200
+  body: "login failed."

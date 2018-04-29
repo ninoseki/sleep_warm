@@ -1,0 +1,8 @@
+---
+meta:
+  note: "HEAD method"
+trigger:
+  method: HEAD
+response:
+  status: 200
+  body: " "

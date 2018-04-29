@@ -23,7 +23,7 @@ describe SleepWarm::Application do
 
   context "GET with no header" do
     it "responds with a 200 OK" do
-      get 'http://example.com'
+      get 'http://example.com/login'
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
       @output.rewind
