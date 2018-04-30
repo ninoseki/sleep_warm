@@ -1,2 +1,4 @@
-# sleep_warm
-A web-based low-interaction honeypot build on Sinatra
+# Sleep Warm
+
+A web-based low-interaction honeypot build on Rack.
+
