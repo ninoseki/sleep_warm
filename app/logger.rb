@@ -1,3 +1,5 @@
+require "logger"
+
 module SleepWarm
   class AccessLogger < ::Logger
     def initialize(*args)

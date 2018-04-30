@@ -1,6 +1,5 @@
 # This is a fork of https://github.com/udzura/rack-spyup.
 
-require "logger"
 require "base64"
 
 module Rack
@@ -17,6 +16,8 @@ module Rack
       @access_logger = self.class.config.access_logger
       @application_logger = self.class.config.application_logger
       instance_configure.call(self) if block_given?
+
+      bootstrap_logging
     end
 
     class << self
@@ -37,7 +38,7 @@ module Rack
       matched_rule = mrr.find({ method: req.request_method, uri: req.url, header: req.env.to_s, body: body(req) })
       res = response_from_rule(matched_rule) if matched_rule
 
-      access_logger.info log_message(req, res, matched_rule)
+      access_logger.info access_info(req, res, matched_rule)
 
       res.finish
     end
@@ -51,7 +52,13 @@ module Rack
 
     private
 
-    def log_message(req, res,rule)
+    def bootstrap_logging
+      application_logger.info "SleepWarm is started."
+      application_logger.info "#{mrr.valid_rules.length} rule(s) loaded."
+      application_logger.info "#{mrr.invalid_rules.length} rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." unless mrr.invalid_rules.empty?
+    end
+
+    def access_info(req, res, rule)
       # [{time}] {clientip} {hostname} \"{requestline}\" {status_code} {match_result} {requestall}
       {
         client_ip: req.env["REMOTE_ADDR"],

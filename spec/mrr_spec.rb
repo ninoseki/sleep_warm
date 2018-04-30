@@ -3,7 +3,7 @@ describe SleepWarm::MRR do
   let(:mrr) { SleepWarm::MRR.new }
 
   describe "#parse" do
-    it "returns an array" do
+    it "returns an Array" do
       expect(mrr.rules).to be_instance_of(Array)
       mrr.rules.each do |rule|
         expect(rule.id).to be_a(Integer)

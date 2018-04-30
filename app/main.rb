@@ -3,7 +3,7 @@ require "yaml"
 module SleepWarm
   class Application
 
-    def call(_)
+    def call(env)
       default = defaults.sample
       yaml = YAML.load_file(default)
       header = yaml.dig("response", "header")
