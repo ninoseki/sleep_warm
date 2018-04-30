@@ -49,17 +49,16 @@ module Rack
       Rack::Response.new(body, status, header)
     end
 
-
     private
 
     def log_message(req, res,rule)
       # [{time}] {clientip} {hostname} \"{requestline}\" {status_code} {match_result} {requestall}
       {
         client_ip: req.env["REMOTE_ADDR"],
-        hostname: req.host,
+        hostname: req.host_with_port,
         request_line: request_line(req),
         status_code: res.status,
-        match_result: rule ? rule.id : "N/A",
+        match_result: rule ? rule.id : "None",
         encoded_request: Base64.strict_encode64(dump_request(req))
       }
     end

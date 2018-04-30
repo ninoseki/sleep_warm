@@ -8,7 +8,6 @@ describe SleepWarm::Application do
       expect(last_response.body).to include("xml")
       @output.rewind
       log = @output.read
-      p log
       expect(log).to include("POST http://example.com/wls-wsat/CoordinatorPortType")
       expect(log).to include("1041")
     end
