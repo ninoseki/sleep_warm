@@ -1,0 +1,19 @@
+---
+meta:
+  id: 1012
+  enable: true
+  note: D-link DIR-645 authentication bypass
+trigger:
+  uri: /getcfg.php
+response:
+  status: 200
+  body: |
+    <service>DEVICE.ACCOUNT</service>
+    <entry>
+    <uid>100</uid>
+    <name>admin</name>
+    <usrid>100</usrid>
+    <password>adminpass</password>
+    <group>administrators</group>
+    <description>manage</description>
+    </entry>

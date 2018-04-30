@@ -1,0 +1,10 @@
+---
+meta:
+  id: 1010
+  enable: true
+  note: Bash RCE
+trigger:
+  header: echo 2014 | md5sum
+response:
+  status: 200
+  body: ad43fd99987a8f6a648abe05095bf52c

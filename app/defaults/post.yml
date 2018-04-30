@@ -1,6 +1,6 @@
 ---
 response:
-  headers:
+  header:
     Server: Apache/2.0.48
     Content-Type: text/html
   body: |

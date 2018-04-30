@@ -1,0 +1,10 @@
+---
+meta:
+  id: 1038
+  enable: true
+  note: 'WebShell ref: http://www.morihi-soc.net/?p=898'
+trigger:
+  body: ZGllKHBpKCkqNDIpOw
+response:
+  status: 200
+  body: '131.94689145077'

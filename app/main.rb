@@ -15,20 +15,19 @@ module SleepWarm
       uri = req.path
       header = req.env.to_s
       body = req.body
-      p uri
-      p mrr.match?({
-        method: method, uri: uri, header: header, body: body
-      })
+      # mrr.match?({
+      #  method: method, uri: uri, header: header, body: body
+      # })
 
       default = YAML.load_file(defaults.sample)
-      headers, body = parse(default)
-      [200, headers, [body]]
+      header, body = parse(default)
+      [200, header, [body]]
     end
 
     def parse(yaml)
-      headers = yaml.dig("response", "headers")
+      header = yaml.dig("response", "header")
       body = yaml.dig("response", "body")
-      [headers, body]
+      [header, body]
     end
 
     def defaults

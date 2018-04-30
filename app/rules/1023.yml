@@ -1,0 +1,12 @@
+---
+meta:
+  id: 1023
+  enable: true
+  note: DGN1000 setup.cgi exploit
+trigger:
+  uri: setup.cgi
+response:
+  status: 200
+  header:
+    WWW-Authenticate: DGN1000
+  body: ok

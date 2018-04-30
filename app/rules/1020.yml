@@ -1,0 +1,14 @@
+---
+meta:
+  id: 1020
+  enable: true
+  note: Tomcat access
+trigger:
+  method: GET
+  uri: .jsp
+response:
+  status: 200
+  header:
+    name: Server
+    value: Apache-Coyote/1.1
+  body: ok

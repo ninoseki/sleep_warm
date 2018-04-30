@@ -1,0 +1,17 @@
+---
+meta:
+  id: 1018
+  enable: true
+  note: OS command injection(uname -a;w;id)
+trigger:
+  body: echo 2014;uname -a;w;id;echo 2015
+response:
+  status: 200
+  body: |
+    2014
+    Linux webserv 4.4.0-98-generic #121-Ubuntu SMP Tue Oct 10 14:24:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+     21:52:57 up 16 days, 17:53,  1 user,  load average: 0.08, 0.06, 0.01
+    USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+    root   pts/1    1.2.3.4   sun 1    1.00s  0.27s  0.02s sshd: root [priv]
+    uid=0(root) gid=0(root) groups=0(root)
+    2015

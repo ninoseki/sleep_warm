@@ -1,13 +1,14 @@
 ---
 meta:
   id: 1001
+  enable: true
   noe: Login request sample(GET)
 trigger:
   method: GET
-  uri: "/login"
+  uri: /login
 response:
   status: 200
-  headers:
+  header:
     Server: Apache/2.0.48
     Content-Type: text/html
   body: |

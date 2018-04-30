@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem "activesupport"
 gem "puma", "~> 3.11"
 gem "rack", "~> 2.0"
 gem "require_all", "~> 2.0"

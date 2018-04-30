@@ -1,10 +1,11 @@
 ---
 meta:
   id: 1002
+  enable: true
   noe: Login request sample(POST)
 trigger:
   method: POST
-  uri: "/login"
+  uri: /login
 response:
   status: 200
-  body: "login failed."
+  body: login failed.

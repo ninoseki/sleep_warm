@@ -1,6 +1,8 @@
 ---
 meta:
-  note: "HEAD method"
+  id: 1003
+  enable: true
+  note: HEAD method
 trigger:
   method: HEAD
 response:

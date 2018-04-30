@@ -1,0 +1,12 @@
+---
+meta:
+  id: 1004
+  enable: true
+  note: OPTIONS method
+trigger:
+  method: OPTIONS
+response:
+  status: 200
+  headers:
+    Allow: GET,HEAD,POST,PUT,OPTIONS,CONNECT,PROPFIND
+  body: " "
