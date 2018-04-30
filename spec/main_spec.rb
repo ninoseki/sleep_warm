@@ -10,7 +10,9 @@ describe SleepWarm::Application do
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
       @output.rewind
-      expect(@output.read).to include("GET http://example.com")
+      output = @output.read
+      expect(output).to include("GET http://example.com")
+      expect(output).to end_with("\n")
     end
   end
 

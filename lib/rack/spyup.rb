@@ -33,9 +33,7 @@ module Rack
       res = Rack::Response.new(body, status_code, header)
 
       matched_rule = mrr.find({ method: req.request_method, uri: req.url, header: req.env.to_s, body: body(req) })
-      if matched_rule
-        res = response_from_rule(matched_rule)
-      end
+      res = response_from_rule(matched_rule) if matched_rule
 
       logger.info log_message(req, res, matched_rule)
 
