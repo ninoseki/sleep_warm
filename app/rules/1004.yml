@@ -7,6 +7,6 @@ trigger:
   method: OPTIONS
 response:
   status: 200
-  headers:
+  header:
     Allow: GET,HEAD,POST,PUT,OPTIONS,CONNECT,PROPFIND
   body: " "

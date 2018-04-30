@@ -5,20 +5,20 @@ module SleepWarm
   class MRR
     def find(input = { method: nil, uri: nil, header: nil, body: nil })
       input = input.compact.map { |k, v| [k.to_s, v] }.to_h
-      rules.find do |rule|
+      matched = rules.select do |rule|
         rule.trigger.all? do |k, v|
           input.dig(k) && input.dig(k).match?(v)
         end
       end
+      # if there are multiple muthecd rules, return the last one.
+      matched.empty? ? nil : matched.last
     end
 
     def rules
       @rules ||= Dir.glob(File.expand_path("rules/**/*.yml", __dir__)).map do |path|
-        begin
-          Rule.new path
-        rescue InvalidRuleError => _
-          puts "InvalidRuleError is raised when parsing #{path}"
-        end
+        Rule.new path
+      end.select do |rule|
+        rule.valid? && rule.enable?
       end
     end
   end
@@ -28,7 +28,6 @@ module SleepWarm
     def initialize(path)
       yaml = YAML.load_file(path)
       super yaml
-      raise InvalidRuleError unless valid?
     end
 
     def id

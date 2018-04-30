@@ -7,7 +7,7 @@ trigger:
   uri: /wp-login.php
 response:
   status: 200
-  headers:
+  header:
     Set-Cookie: wordpress_test_cookie=WP+Cookie+check; path=/
   body: |
     <!DOCTYPE html>

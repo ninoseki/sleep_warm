@@ -9,6 +9,5 @@ trigger:
 response:
   status: 200
   header:
-    name: Server
-    value: Apache-Coyote/1.1
+    Server: Apache-Coyote/1.1
   body: ok
