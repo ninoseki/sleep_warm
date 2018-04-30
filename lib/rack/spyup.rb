@@ -8,22 +8,13 @@ module Rack
 
     attr_reader :app
     attr_accessor :logger
+    attr_reader :mrr
 
     def initialize(app, &instance_configure)
       @app = app
       @logger = self.class.config.logger
+      @mrr = SleepWarm::MRR.new
       instance_configure.call(self) if block_given?
-    end
-
-    def call(env)
-      req = Rack::Request.new(env)
-
-      status_code, headers, body = @app.call(env)
-      res = Rack::Response.new(body, status_code, headers)
-
-      logger.info log_message(req, res)
-
-      res.finish
     end
 
     class << self
@@ -36,16 +27,39 @@ module Rack
       end
     end
 
+    def call(env)
+      req = Rack::Request.new(env)
+      status_code, header, body = @app.call(env)
+      res = Rack::Response.new(body, status_code, header)
+
+      matched_rule = mrr.find({ method: req.request_method, uri: req.url, header: req.env.to_s, body: body(req) })
+      if matched_rule
+        res = response_from_rule(matched_rule)
+      end
+
+      logger.info log_message(req, res, matched_rule)
+
+      res.finish
+    end
+
+    def response_from_rule(rule)
+      body = rule.response.dig("body") || ""
+      status = rule.response.dig("status") || 200
+      header = rule.response.dig("header") || {}
+      Rack::Response.new(body, status, header)
+    end
+
+
     private
 
-    def log_message(req, res)
+    def log_message(req, res,rule)
       # [{time}] {clientip} {hostname} \"{requestline}\" {status_code} {match_result} {requestall}
       {
         client_ip: req.env["REMOTE_ADDR"],
         hostname: req.host,
         request_line: request_line(req),
         status_code: res.status,
-        match_result: nil,
+        match_result: rule ? rule.id : "N/A",
         encoded_request: Base64.strict_encode64(dump_request(req))
       }
     end
@@ -64,7 +78,9 @@ module Rack
     end
 
     def body(req)
-      req.body.read
+      body = req.body.read
+      req.body.rewind
+      body
     end
 
     def request_line(req)

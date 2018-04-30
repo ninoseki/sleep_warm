@@ -1,25 +1,8 @@
 require "stringio"
 require "base64"
 
-def app
-  @app
-end
-
-def mock_app(&builder)
-  @app = Rack::Builder.new(&builder)
-end
-
 describe SleepWarm::Application do
-  before :all do
-    @output = StringIO.new
-    logger = SleepWarm::Logger.new(@output)
-    mock_app do
-      use Rack::SpyUp do |mw|
-        mw.logger = logger
-      end
-      run SleepWarm::Application.new
-    end
-  end
+  include_context "rackapp testing"
 
   context "GET with no header" do
     it "responds with a 200 OK" do

@@ -1,3 +1,4 @@
+require "ostruct"
 require "yaml"
 
 module SleepWarm
@@ -15,41 +16,47 @@ module SleepWarm
       @rules ||= Dir.glob(File.expand_path("rules/**/*.yml", __dir__)).map do |path|
         begin
           Rule.new path
-        rescue InvalidRuleError => e
-          puts "InvalidRurleError is raised when parsing #{path}"
+        rescue InvalidRuleError => _
+          puts "InvalidRuleError is raised when parsing #{path}"
         end
       end
     end
   end
 
-  class Rule
+  class Rule < OpenStruct
+
     def initialize(path)
-      @yaml = YAML.load_file path
+      yaml = YAML.load_file(path)
+      super yaml
       raise InvalidRuleError unless valid?
     end
 
     def id
-      @id ||= @yaml.dig("meta", "id")
+      @id ||= meta.dig("id")
     end
 
     def note
-      @note ||= @yaml.dig("meta", "note")
+      @note ||= meta.dig("note")
     end
 
     def enable?
-      @enable ||= @yaml.dig("meta", "enable")
-    end
-
-    def trigger
-      @trigger ||= @yaml.dig("trigger")
-    end
-
-    def response
-      @response ||= @yaml.dig("response")
+      @enable ||= meta.dig("enable")
     end
 
     def valid?
-      [id, note, enable?, trigger, response].all?
+      has_meta? && has_trigger? && has_response?
+    end
+
+    def has_response?
+      ["status", "body"].all? { |key| response.key? key }
+    end
+
+    def has_trigger?
+      ["method", "header", "uri", "body"].any? { |key| trigger.key? key }
+    end
+
+    def has_meta?
+      [id, note, enable?].all? { |e| !e.nil? }
     end
   end
 end
