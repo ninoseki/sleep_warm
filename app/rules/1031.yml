@@ -1,8 +1,8 @@
 ---
 meta:
-  :id: 1031
-  :enable: true
-  :note: Tomcat manager
+  id: 1031
+  enable: true
+  note: Tomcat manager
 trigger:
   uri: /manager/status
 response:

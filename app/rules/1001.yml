@@ -2,7 +2,7 @@
 meta:
   id: 1001
   enable: true
-  noe: Login request sample(GET)
+  note: Login request sample(GET)
 trigger:
   method: GET
   uri: /login

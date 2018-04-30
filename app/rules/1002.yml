@@ -2,7 +2,7 @@
 meta:
   id: 1002
   enable: true
-  noe: Login request sample(POST)
+  note: Login request sample(POST)
 trigger:
   method: POST
   uri: /login

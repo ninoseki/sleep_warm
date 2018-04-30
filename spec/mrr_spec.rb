@@ -6,9 +6,11 @@ describe SleepWarm::MRR do
     it "returns an array" do
       expect(mrr.rules).to be_instance_of(Array)
       mrr.rules.each do |rule|
-        expect(rule.dig("meta")).not_to be_empty
-        expect(rule.dig("trigger")).not_to be_empty
-        expect(rule.dig("response")).not_to be_empty
+        expect(rule.id).to be_a(Integer)
+        expect(rule.enable?).to be_truthy.or be_falshy
+        expect(rule.note).to be_a(String)
+        expect(rule.trigger).not_to be_empty
+        expect(rule.response).not_to be_empty
       end
     end
   end
@@ -25,10 +27,10 @@ describe SleepWarm::MRR do
       it "should return true" do
         input = { method: "GET", uri: "/login" }
         res = mrr.find(input)
-        expect(res).to be_a(Hash)
-        expect(res.dig("response", "status")).to be_a(Integer)
-        expect(res.dig("response", "header")).to be_a(Hash)
-        expect(res.dig("response", "body")).to be_a(String)
+        expect(res).to be_a(SleepWarm::Rule)
+        expect(res.response.dig("status")).to be_a(Integer)
+        expect(res.response.dig("header")).to be_a(Hash)
+        expect(res.response.dig("body")).to be_a(String)
       end
     end
   end
