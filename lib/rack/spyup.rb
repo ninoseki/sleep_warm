@@ -7,13 +7,15 @@ module Rack
   class SpyUp
 
     attr_reader :app
-    attr_accessor :logger
+    attr_accessor :access_logger
+    attr_accessor :application_logger
     attr_reader :mrr
 
     def initialize(app, &instance_configure)
       @app = app
-      @logger = self.class.config.logger
       @mrr = SleepWarm::MRR.new
+      @access_logger = self.class.config.access_logger
+      @application_logger = self.class.config.application_logger
       instance_configure.call(self) if block_given?
     end
 
@@ -35,7 +37,7 @@ module Rack
       matched_rule = mrr.find({ method: req.request_method, uri: req.url, header: req.env.to_s, body: body(req) })
       res = response_from_rule(matched_rule) if matched_rule
 
-      logger.info log_message(req, res, matched_rule)
+      access_logger.info log_message(req, res, matched_rule)
 
       res.finish
     end
@@ -57,11 +59,11 @@ module Rack
         request_line: request_line(req),
         status_code: res.status,
         match_result: rule ? rule.id : "None",
-        encoded_request: Base64.strict_encode64(dump_request(req))
+        encoded_request: base64_encoded_request(req)
       }
     end
 
-    def dump_request(req)
+    def base64_encoded_request(req)
       arr = []
       arr << request_line(req)
       arr += request_headers(req)
@@ -71,7 +73,7 @@ module Rack
         arr << ""
         arr << body
       end
-      arr.join("\n")
+      Base64.strict_encode64 arr.join("\n")
     end
 
     def body(req)

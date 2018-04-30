@@ -9,10 +9,10 @@ describe SleepWarm::Application do
       get 'http://example.com/'
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
-      @output.rewind
-      output = @output.read
-      expect(output).to include("GET http://example.com")
-      expect(output).to end_with("\n")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("GET http://example.com")
+      expect(access_log).to end_with("\n")
     end
   end
 
@@ -23,9 +23,9 @@ describe SleepWarm::Application do
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
 
-      @output.rewind
-      output = @output.read
-      decoded_req = Base64.decode64(output.split.last)
+      @access_log.rewind
+      access_log = @access_log.read
+      decoded_req = Base64.decode64(access_log.split.last)
       expect(decoded_req).to include("GET http://example.com")
       expect(decoded_req).to include("User-Agent: Firefox")
     end
@@ -37,9 +37,9 @@ describe SleepWarm::Application do
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
 
-      @output.rewind
-      output = @output.read
-      decoded_req = Base64.decode64(output.split.last)
+      @access_log.rewind
+      access_log = @access_log.read
+      decoded_req = Base64.decode64(access_log.split.last)
       expect(decoded_req).to include("POST http://example.com")
     end
   end
@@ -59,9 +59,9 @@ EOF
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
 
-      @output.rewind
-      output = @output.read
-      decoded_req = Base64.decode64(output.split.last)
+      @access_log.rewind
+      access_log = @access_log.read
+      decoded_req = Base64.decode64(access_log.split.last)
       expect(decoded_req).to include("POST http://example.com")
       expect(decoded_req).to include("Content-Length: #{input.length}")
       expect(decoded_req).to include("Content-Type: application/x-www-form-urlencoded")

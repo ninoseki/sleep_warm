@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       get 'http://example.com//wls-wsat/CoordinatorPortType'
       expect(last_response.status).to eq(500)
       expect(last_response.body).to include("Web Service")
-      @output.rewind
-      log = @output.read
-      expect(log).to include("GET http://example.com//wls-wsat/CoordinatorPortType")
-      expect(log).to include("1040")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("GET http://example.com//wls-wsat/CoordinatorPortType")
+      expect(access_log).to include("1040")
     end
   end
 end

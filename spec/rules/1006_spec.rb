@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       get 'http://example.com/robots.txt'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("User-agent")
-      @output.rewind
-      log = @output.read
-      expect(log).to include("GET http://example.com/robots.txt")
-      expect(log).to include("1006")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("GET http://example.com/robots.txt")
+      expect(access_log).to include("1006")
     end
   end
 end

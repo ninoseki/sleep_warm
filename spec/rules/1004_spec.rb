@@ -8,10 +8,10 @@ describe SleepWarm::Application do
       expect(last_response.body).not_to be_empty
       expect(last_response.header["Allow"]).to eq("GET,HEAD,POST,PUT,OPTIONS,CONNECT,PROPFIND")
 
-      @output.rewind
-      log = @output.read
-      expect(log).to include("OPTIONS http://example.com/")
-      expect(log).to include("1004")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("OPTIONS http://example.com/")
+      expect(access_log).to include("1004")
     end
   end
 end

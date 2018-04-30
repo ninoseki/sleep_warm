@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       head 'http://example.com/login'
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
-      @output.rewind
-      log = @output.read
-      expect(log).to include("HEAD http://example.com/login")
-      expect(log).to include("1003")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("HEAD http://example.com/login")
+      expect(access_log).to include("1003")
     end
   end
 end

@@ -18,11 +18,14 @@ RSpec.shared_context "rackapp testing", shared_context: :metadata do
   end
 
   before :all do
-    @output = StringIO.new
-    logger = SleepWarm::Logger.new(@output)
+    @access_log = StringIO.new
+    @application_log = StringIO.new
+    access_logger = SleepWarm::AccessLogger.new(@access_log)
+    application_logger = SleepWarm::ApplicationLogger.new(@application_log)
     mock_app do
       use Rack::SpyUp do |mw|
-        mw.logger = logger
+        mw.access_logger = access_logger
+        mw.application_logger = application_logger
       end
       run SleepWarm::Application.new
     end

@@ -7,10 +7,10 @@ describe SleepWarm::Application do
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("ok")
       expect(last_response.header["Server"]).to eq("Microsoft-IIS/7.0")
-      @output.rewind
-      log = @output.read
-      expect(log).to include("PROPFIND http://example.com/")
-      expect(log).to include("1022")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("PROPFIND http://example.com/")
+      expect(access_log).to include("1022")
     end
   end
 end

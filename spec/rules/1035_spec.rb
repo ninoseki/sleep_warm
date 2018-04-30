@@ -7,10 +7,10 @@ describe SleepWarm::Application do
       get 'http://example.com/'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq("linux--2017")
-      @output.rewind
-      log = @output.read
-      expect(log).to include("GET http://example.com/")
-      expect(log).to include("1035")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("GET http://example.com/")
+      expect(access_log).to include("1035")
     end
   end
 end

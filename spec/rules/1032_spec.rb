@@ -8,10 +8,10 @@ describe SleepWarm::Application do
       expect(last_response.body).to include("401")
       expect(last_response.header["Server"]).to eq("Apache-Coyote/1.1")
       expect(last_response.header["WWW-Authenticate"]).to eq('Basic realm="Tomcat Manager Application"')
-      @output.rewind
-      log = @output.read
-      expect(log).to include("GET http://example.com/manager/html")
-      expect(log).to include("1032")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("GET http://example.com/manager/html")
+      expect(access_log).to include("1032")
     end
   end
 end

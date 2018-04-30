@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       post 'http://example.com/login'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("login failed.")
-      @output.rewind
-      log = @output.read
-      expect(log).to include("POST http://example.com/login")
-      expect(log).to include("1002")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("POST http://example.com/login")
+      expect(access_log).to include("1002")
     end
   end
 end

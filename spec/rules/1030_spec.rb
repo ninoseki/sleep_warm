@@ -8,10 +8,10 @@ describe SleepWarm::Application do
       expect(last_response.body).to include("JBoss")
       expect(last_response.header["Server"]).to eq("Apache-Coyote/1.1")
       expect(last_response.header["X-Powered-By"]).to eq('Servlet/3.0; JBossAS-6')
-      @output.rewind
-      log = @output.read
-      expect(log).to include("GET http://example.com/jbossws/")
-      expect(log).to include("1030")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("GET http://example.com/jbossws/")
+      expect(access_log).to include("1030")
     end
   end
 end

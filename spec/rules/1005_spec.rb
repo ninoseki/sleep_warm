@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       put 'http://example.com/'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("file created.")
-      @output.rewind
-      log = @output.read
-      expect(log).to include("PUT http://example.com/")
-      expect(log).to include("1005")
+      @access_log.rewind
+      access_log = @access_log.read
+      expect(access_log).to include("PUT http://example.com/")
+      expect(access_log).to include("1005")
     end
   end
 end
