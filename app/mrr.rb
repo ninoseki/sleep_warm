@@ -17,7 +17,7 @@ module SleepWarm
     def rules
       @rules ||= Dir.glob(File.expand_path("rules/**/*.yml", __dir__)).map do |path|
         Rule.new path
-      end
+      end.sort_by(&:id)
     end
 
     def valid_rules
