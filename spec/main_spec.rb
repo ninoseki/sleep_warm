@@ -12,6 +12,7 @@ describe SleepWarm::Application do
       @access_log.rewind
       access_log = @access_log.read
       expect(access_log).to include("GET http://example.com")
+      expect(access_log).to include("HTTP/1.1")
       expect(access_log).to end_with("\n")
     end
   end

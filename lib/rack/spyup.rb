@@ -64,6 +64,7 @@ module Rack
         client_ip: req.env["REMOTE_ADDR"],
         hostname: req.host_with_port,
         request_line: request_line(req),
+        version: req.env["HTTP_VERSION"],
         status_code: res.status,
         match_result: rule ? rule.id : "None",
         encoded_request: base64_encoded_request(req)
