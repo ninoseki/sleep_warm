@@ -24,11 +24,11 @@ user "sleep-warm" do
   create_home true
 end
 
-# git "/opt/sleep-warm" do
-#   repository "https://github.com/ninoseki/sleep_warm.git"
-# end
+execute "git clone https://github.com/ninoseki/sleep_warm.git -b WIP /opt/sleep-warm" do
+  not_if "test -d /opt/sleep-warm"
+end
 
-execute "git checkout WIP; bundle install --path vendor/bundle" do
+execute "bundle install --path vendor/bundle" do
   cwd "/opt/sleep-warm"
   user "sleep-warm"
   not_if "bundle | grep installed"
