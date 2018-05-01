@@ -1,4 +1,4 @@
-require_relative "config/environment"
+require_relative "app/config/environment"
 require "dotenv/load"
 
 use Rack::SpyUp do |config|

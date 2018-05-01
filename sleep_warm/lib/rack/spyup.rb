@@ -58,6 +58,12 @@ module Rack
       application_logger.info "#{mrr.invalid_rules.length} rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." unless mrr.invalid_rules.empty?
     end
 
+    # Generates an access information for logging.
+    #
+    # @param req [Rack::Request]
+    # @param res [Rack::Response]
+    # @param rule [SleepWarm::Rule]
+    # @return [Hash]
     def access_info(req, res, rule)
       # [{time}] {clientip} {hostname} \"{requestline}\" {status_code} {match_result} {requestall}
       {
@@ -71,6 +77,10 @@ module Rack
       }
     end
 
+    # Generates Base64 encoded HTTP request information
+    #
+    # @param req [Rack::Request]
+    # @return [String]
     def base64_encoded_request(req)
       arr = []
       arr << request_line(req)
@@ -84,12 +94,20 @@ module Rack
       Base64.strict_encode64 arr.join("\n")
     end
 
+    # Returns Rack::Response body
+    #
+    # @param req [Rack::Request]
+    # @return [String]
     def body(req)
       body = req.body.read
       req.body.rewind
       body
     end
 
+    # Returns HTTP request-line
+    #
+    # @param req [Rack::Request]
+    # @return [String]
     def request_line(req)
       "#{req.request_method} #{req.url}"
     end
