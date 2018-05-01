@@ -1,4 +1,4 @@
-require_relative '../sleep_warm/config/environment'
+require_relative '../app/config/environment'
 
 require 'rack/test'
 
