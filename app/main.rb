@@ -11,6 +11,9 @@ module SleepWarm
       [200, header, [body]]
     end
 
+    # Returns default paths of YAML for Rack::Response
+    #
+    # @return [Array<String>]
     def defaults
       Dir.glob(File.expand_path("defaults/**/*.yml", __dir__))
     end

@@ -3,6 +3,15 @@ require "yaml"
 
 module SleepWarm
   class MRR
+
+    # Returns a matched SleepWarm::Rule based on the input
+    #
+    # @param [Hash] input
+    # @ptions input [String] :method HTTP method
+    # @ptions input [String] :uri URI
+    # @ptions input [String] :header HTTP header
+    # @ptions input [String] :body HTTP body
+    # @return [SleepWarm::Rule, nil] The matched rule or nil if there is no matched one.
     def find(input = { method: nil, uri: nil, header: nil, body: nil })
       input = input.compact.map { |k, v| [k.to_s, v] }.to_h
       matched = valid_rules.select do |rule|
@@ -14,16 +23,25 @@ module SleepWarm
       matched.empty? ? nil : matched.last
     end
 
+    # Returns an Array of SleepWarm::Rule
+    #
+    # return [Array<SleepWarm::Rule>]
     def rules
       @rules ||= Dir.glob(File.expand_path("rules/**/*.yml", __dir__)).map do |path|
         Rule.new path
       end
     end
 
+    # Returns an Array of SleepWarm::Rule which is valid
+    #
+    # return [Array<SleepWarm::Rule>]
     def valid_rules
       rules.select { |rule| rule.valid? && rule.enable? }.sort_by(&:id)
     end
 
+    # Returns an Array of SleepWarm::Rule which is invalid
+    #
+    # return [Array<SleepWarm::Rule>]
     def invalid_rules
       rules.reject(&:valid?)
     end

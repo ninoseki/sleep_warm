@@ -43,6 +43,10 @@ module Rack
       res.finish
     end
 
+    # Returns a Rack::Response based on a SleepWarm::Rule
+    #
+    # @param [SleepWarm::Rule] rule
+    # @return [Rack::Response]
     def response_from_rule(rule)
       body = rule.response.dig("body") || ""
       status = rule.response.dig("status") || 200
@@ -52,20 +56,20 @@ module Rack
 
     private
 
+    # Logging application log
     def bootstrap_logging
       application_logger.info "SleepWarm is started."
       application_logger.info "#{mrr.valid_rules.length} rule(s) loaded."
       application_logger.info "#{mrr.invalid_rules.length} rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." unless mrr.invalid_rules.empty?
     end
 
-    # Generates an access information for logging.
+    # Returns an access information for logging.
     #
-    # @param req [Rack::Request]
-    # @param res [Rack::Response]
-    # @param rule [SleepWarm::Rule]
+    # @param [Rack::Request] req
+    # @param [Rack::Response] res
+    # @param [SleepWarm::Rule] rule
     # @return [Hash]
     def access_info(req, res, rule)
-      # [{time}] {clientip} {hostname} \"{requestline}\" {status_code} {match_result} {requestall}
       {
         client_ip: req.env["REMOTE_ADDR"],
         hostname: req.host_with_port,
@@ -77,9 +81,9 @@ module Rack
       }
     end
 
-    # Generates Base64 encoded HTTP request information
+    # Returns Base64 encoded HTTP request information
     #
-    # @param req [Rack::Request]
+    # @param [Rack::Request] req
     # @return [String]
     def base64_encoded_request(req)
       arr = []
@@ -96,7 +100,7 @@ module Rack
 
     # Returns Rack::Response body
     #
-    # @param req [Rack::Request]
+    # @param [Rack::Request] req
     # @return [String]
     def body(req)
       body = req.body.read
@@ -106,12 +110,16 @@ module Rack
 
     # Returns HTTP request-line
     #
-    # @param req [Rack::Request]
+    # @param [Rack::Request] req
     # @return [String]
     def request_line(req)
       "#{req.request_method} #{req.url}"
     end
 
+    # Returns headers which starts with "HTTP"
+    #
+    # @params [Rack::Request] req
+    # @return [Array]
     def request_headers(req)
       headers = []
       headers << "Content-Type: #{req.content_type}" if req.content_type
