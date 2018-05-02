@@ -1,0 +1,13 @@
+---
+meta:
+  id: 1042
+  enable: true
+  note: HGW DNS Changer
+trigger:
+  uri: /home.asp
+response:
+  status: 200
+  header:
+    Server: GoAhead-Webs
+  body: NEXT-2204N
+
