@@ -17,11 +17,11 @@ module SleepWarm
     def rules
       @rules ||= Dir.glob(File.expand_path("rules/**/*.yml", __dir__)).map do |path|
         Rule.new path
-      end.sort_by(&:id)
+      end
     end
 
     def valid_rules
-      rules.select { |rule| rule.valid? && rule.enable? }
+      rules.select { |rule| rule.valid? && rule.enable? }.sort_by(&:id)
     end
 
     def invalid_rules
@@ -29,29 +29,38 @@ module SleepWarm
     end
   end
 
-  class Rule < OpenStruct
+  class Rule
 
     attr_reader :path
+    attr_reader :attributes
 
     def initialize(path)
       @path = path
-      yaml = YAML.load_file(path)
-      super yaml
+      @attributes = YAML.load_file(path)
     end
 
     def id
-      @id ||= meta.dig("id")
+      @id ||= attributes.dig("meta", "id")
     end
 
     def note
-      @note ||= meta.dig("note")
+      @note ||= attributes.dig("meta", "note")
     end
 
     def enable?
-      @enable ||= meta.dig("enable")
+      @enable ||= attributes.dig("meta", "enable")
+    end
+
+    def trigger
+      @trigger ||= attributes.dig("trigger")
+    end
+
+    def response
+      @response ||= attributes.dig("response")
     end
 
     def valid?
+      return false unless attributes.is_a? Hash
       begin
         has_meta? && has_trigger? && has_response?
       rescue NoMethodError
