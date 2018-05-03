@@ -24,7 +24,7 @@ user "sleep-warm" do
   create_home true
 end
 
-git "/opt/slee-warm" do
+git "/opt/sleep-warm" do
   repository "https://github.com/ninoseki/sleep_warm.git"
 end
 
