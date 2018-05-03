@@ -15,6 +15,8 @@ remote_file "/etc/logstash/conf.d/sleep-warm.conf"
 
 execute "chown -R logstash:logstash /etc/logstash"
 
-["sudo systemctl enable logstash", "sudo systemctl start logstash"].each do |command|
-  execute command
+%i(enable start).each do |action|
+  service "logstash" do
+    action action
+  end
 end

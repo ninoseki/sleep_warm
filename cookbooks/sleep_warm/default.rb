@@ -24,13 +24,12 @@ user "sleep-warm" do
   create_home true
 end
 
-execute "git clone https://github.com/ninoseki/sleep_warm.git -b WIP /opt/sleep-warm" do
-  not_if "test -d /opt/sleep-warm"
+git "/opt/slee-warm" do
+  repository "https://github.com/ninoseki/sleep_warm.git"
 end
 
 execute "bundle install --path vendor/bundle" do
   cwd "/opt/sleep-warm"
-  user "sleep-warm"
   not_if "bundle | grep installed"
 end
 
@@ -45,6 +44,10 @@ remote_file "/opt/sleep-warm/.env"
 execute "sudo chown -R sleep-warm:sleep-warm /opt/sleep-warm"
 
 # start the service
-["sudo systemctl daemon-reload", "sudo systemctl enable sleep-warm", "sudo systemctl start sleep-warm"].each do |command|
-  execute command
+execute "sudo systemctl daemon-reload"
+%i(enable start).each do |action|
+  service "sleep-warm" do
+    action action
+  end
 end
+
