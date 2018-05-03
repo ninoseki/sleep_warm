@@ -1,0 +1,18 @@
+---
+meta:
+  id: 1006
+  enable: true
+  note: access to robots.txt
+trigger:
+  uri: /robots.txt
+response:
+  status: 200
+  headers:
+    Allow: GET,HEAD,POST,PUT,OPTIONS,CONNECT,PROPFIND
+  body: |
+    User-agent: *
+    Allow: /wordpress/
+    Allow: /joomla/
+    Allow: /drupal/
+    Allow: /blog/
+    Disallow: /phpmyadmin/

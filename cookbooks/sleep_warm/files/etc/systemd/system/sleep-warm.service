@@ -1,0 +1,15 @@
+[Unit]
+Description=Sleep Warm daemon
+Documentation=https://github.com/ninoseki/sleep_warm
+
+[Service]
+ExecStart = /opt/sleep-warm/sleep-warm.sh
+ExecRestart = /bin/kill -WINCH ${MAINPID}
+ExecStop = /bin/kill -WINCH ${MAINPID}
+Restart = no
+Type = simple
+User = sleep-warm
+Group = sleep-warm
+
+[Install]
+WantedBy = multi-user.target

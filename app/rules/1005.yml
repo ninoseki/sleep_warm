@@ -1,0 +1,12 @@
+---
+meta:
+  id: 1005
+  enable: true
+  note: PUT method
+trigger:
+  method: PUT
+response:
+  status: 200
+  header:
+    Allow: GET,HEAD,POST,PUT,OPTIONS,CONNECT,PROPFIND
+  body: file created.

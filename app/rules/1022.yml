@@ -1,0 +1,12 @@
+---
+meta:
+  id: 1022
+  enable: true
+  note: PROPFIND method
+trigger:
+  method: PROPFIND
+response:
+  status: 200
+  header:
+    Server: Microsoft-IIS/7.0
+  body: ok

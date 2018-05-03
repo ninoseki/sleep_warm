@@ -1,0 +1,10 @@
+---
+meta:
+  id: 1035
+  enable: true
+  note: Apache Struts S2-045
+trigger:
+  header: echo linux--2017
+response:
+  status: 200
+  body: linux--2017

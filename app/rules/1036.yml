@@ -1,0 +1,10 @@
+---
+meta:
+  id: 1036
+  enable: true
+  note: "WebShell ref: http://www.morihi-soc.net/?p=848"
+trigger:
+  uri: /cmx.php
+response:
+  status: 200
+  body: CMD2017

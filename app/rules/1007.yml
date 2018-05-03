@@ -1,0 +1,12 @@
+---
+meta:
+  id: 1007
+  enable: true
+  note: access to phpMyAdmin
+trigger:
+  uri: /phpMyAdmin/
+response:
+  status: 200
+  headers:
+    Set-Cookie: phpMyAdmin=1vbs1ar15h9a880ekmr49f4p4pvbuh89; path=/phpmyadmin/; HttpOnly
+  body: phpmyadmin

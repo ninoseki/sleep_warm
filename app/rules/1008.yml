@@ -1,0 +1,11 @@
+---
+meta:
+  id: 1008
+  enable: true
+  note: command.php
+trigger:
+  method: POST
+  uri: command.php
+response:
+  status: 200
+  body: 610cker

@@ -1,0 +1,11 @@
+---
+meta:
+  id: 1002
+  enable: true
+  note: Login request sample(POST)
+trigger:
+  method: POST
+  uri: /login
+response:
+  status: 200
+  body: login failed.

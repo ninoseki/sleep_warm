@@ -1,0 +1,10 @@
+---
+meta:
+  id: 1014
+  enable: true
+  note: OS command injection(whoami)
+trigger:
+  body: whoami
+response:
+  status: 200
+  body: root

@@ -1,0 +1,10 @@
+---
+meta:
+  id: 1009
+  enable: true
+  note: Apache Struts S2-045
+trigger:
+  header: Struts2045
+response:
+  status: 200
+  body: Struts2045

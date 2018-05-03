@@ -1,0 +1,13 @@
+---
+meta:
+  id: 1021
+  enable: true
+  note: Tomcat Backdoor
+trigger:
+  method: GET
+  uri: diZPqEAuJM.jsp$
+response:
+  status: 200
+  header:
+    Server: Apache-Coyote/1.1
+  body: 42d388f8b1db997faaf7dab487f11290
