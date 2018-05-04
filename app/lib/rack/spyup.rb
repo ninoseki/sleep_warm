@@ -76,8 +76,8 @@ module Rack
         request_line: request_line(req),
         version: req.env["HTTP_VERSION"],
         status_code: res.status,
-        match_result: rule ? rule.id : "None",
-        encoded_request: base64_encoded_request(req)
+        rule_id: rule ? rule.id : "None",
+        all: base64_encoded_request(req)
       }
     end
 
