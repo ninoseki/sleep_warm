@@ -71,7 +71,7 @@ module Rack
     # @return [Hash]
     def access_info(req, res, rule)
       {
-        client_ip: req.env["REMOTE_ADDR"],
+        client_ip: req.env["HTTP_X_FORWARDED_FOR"] || req.env["REMOTE_ADDR"],
         hostname: req.host_with_port,
         request_line: request_line(req),
         version: req.env["HTTP_VERSION"],
