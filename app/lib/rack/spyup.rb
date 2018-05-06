@@ -1,7 +1,3 @@
-# This is a fork of https://github.com/udzura/rack-spyup.
-
-require "base64"
-
 module Rack
   class SpyUp < BaseUp
 
@@ -58,9 +54,8 @@ module Rack
 
     # Logging application log
     def bootstrap_logging
-      application_logger.info "SleepWarm is started."
-      application_logger.info "#{mrr.valid_rules.length} rule(s) loaded."
-      application_logger.info "#{mrr.invalid_rules.length} rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." unless mrr.invalid_rules.empty?
+      application_logger.info "#{mrr.valid_rules.length} matching rule(s) loaded."
+      application_logger.info "#{mrr.invalid_rules.length} matching rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." unless mrr.invalid_rules.empty?
     end
 
     # Returns an access information for logging.

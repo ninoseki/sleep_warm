@@ -4,7 +4,7 @@ module SleepWarm
   class Hunter
 
     def hunt(input)
-      selected = rules.select { |rule| input.match? rule }
+      selected = rules.map { |rule| input.match rule }.compact.map { |match| match[0] }
       selected.empty? ? nil : selected
     end
 

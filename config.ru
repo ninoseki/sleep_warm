@@ -7,7 +7,7 @@ use Rack::SpyUp do |config|
 end
 
 use Rack::HuntUp do |config|
-  config.hunting_logger = STDOUT
+  config.hunting_logger = SleepWarm::HuntingLogger.new(ENV["HUNTING_LOG"] || STDOUT)
   config.application_logger = SleepWarm::ApplicationLogger.new(ENV["APPLICATION_LOG"] || STDOUT)
 end
 

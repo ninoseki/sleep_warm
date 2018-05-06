@@ -23,7 +23,7 @@ RSpec.shared_context "rackapp testing", shared_context: :metadata do
     @hunting_log = StringIO.new
     access_logger = SleepWarm::AccessLogger.new(@access_log)
     application_logger = SleepWarm::ApplicationLogger.new(@application_log)
-    hunting_logger = SleepWarm::AccessLogger.new(@hunting_logger)
+    hunting_logger = SleepWarm::HuntingLogger.new(@hunting_log)
     mock_app do
       use Rack::SpyUp do |mw|
         mw.access_logger = access_logger
@@ -73,7 +73,7 @@ RSpec.shared_context "huntup testing", shared_context: :metadata do
 
   before :all do
     @hunting_log = StringIO.new
-    hunting_logger = SleepWarm::AccessLogger.new(@hunting_logger)
+    hunting_logger = SleepWarm::HuntingLogger.new(@hunting_log)
     @application_log = StringIO.new
     application_logger = SleepWarm::ApplicationLogger.new(@application_log)
     mock_app do

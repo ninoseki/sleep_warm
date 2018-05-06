@@ -2,6 +2,9 @@ require "logger"
 require "time"
 
 module SleepWarm
+
+  class ApplicationLogger < ::Logger; end
+
   class AccessLogger < ::Logger
     def initialize(*args)
       super
@@ -15,5 +18,17 @@ module SleepWarm
     end
   end
 
-  class ApplicationLogger < ::Logger; end
+  class HuntingLogger < ::Logger
+    def initialize(*args)
+      super
+      @formatter = HuntingLogFormatter.new
+    end
+  end
+
+  class HuntingLogFormatter < ::Logger::Formatter
+    def call(_, time, _, msg)
+      hits = msg[:hits].join(",")
+      "[#{time.iso8601}] #{msg[:client_ip]} #{hits}\n"
+    end
+  end
 end
