@@ -27,7 +27,9 @@ module SleepWarm
     #
     # return [Array<SleepWarm::Rule>]
     def rules
-      @rules ||= Dir.glob(File.expand_path("rules/**/*.yml", __dir__)).map do |path|
+      @rules ||= Dir.glob(File.expand_path("rules/**/*.yml", __dir__)).select do |path|
+        path.match? /\d+.yml$/
+      end.map do |path|
         Rule.new path
       end
     end
