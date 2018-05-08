@@ -6,26 +6,34 @@ module Rack
     attr_accessor :application_logger
     attr_reader :mrr
 
+    # @param [#call] app
+    # @param [Proc] instance_configure
     def initialize(app, &instance_configure)
       @app = app
       @mrr = SleepWarm::MRR.new
       @access_logger = self.class.config.access_logger
       @application_logger = self.class.config.application_logger
+
       instance_configure.call(self) if block_given?
 
       bootstrap_logging
     end
 
     class << self
+      # Returns a configuration
+      #
+      # @param [Proc] global_configure
+      # return [Rack::SpyUp::Configuration]
       def config(&global_configure)
         @__config ||= Rack::SpyUp::Configuration.default
-        if block_given?
-          global_configure.call(@__config)
-        end
+        global_configure.call(@__config) if block_given?
         @__config
       end
     end
 
+    # @param  [Hash{String => String}] env
+    # @return [Array(Integer, Hash, #each)]
+    # @see    http://rack.rubyforge.org/doc/SPEC.html
     def call(env)
       req = Rack::Request.new(env)
       status_code, header, body = @app.call(env)
@@ -77,4 +85,3 @@ module Rack
     end
   end
 end
-
