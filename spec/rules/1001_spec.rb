@@ -1,5 +1,5 @@
 describe SleepWarm::Application do
-  include_context "rackapp testing"
+  include_context "spyup testing"
 
   context "Request which is matched a rule(id = 1001)" do
     it "should log the rule id" do
