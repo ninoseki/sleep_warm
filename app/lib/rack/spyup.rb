@@ -66,13 +66,13 @@ module Rack
     # @return [Hash]
     def access_info(req, res, rule)
       {
-        client_ip: req.env["REMOTE_ADDR"],
+        client_ip: req.env["HTTP_X_FORWARDED_FOR"] || req.env["REMOTE_ADDR"],
         hostname: req.host_with_port,
         request_line: request_line(req),
         version: req.env["HTTP_VERSION"],
         status_code: res.status,
-        match_result: rule ? rule.id : "None",
-        encoded_request: base64_encoded_request(req)
+        rule_id: rule ? rule.id : "None",
+        all: base64_encoded_request(req)
       }
     end
   end
