@@ -1,6 +1,7 @@
 # Sleep Warm
 
 [![Build Status](https://travis-ci.org/ninoseki/sleep_warm.svg?branch=master)](https://travis-ci.org/ninoseki/sleep_warm)
+[![Maintainability](https://api.codeclimate.com/v1/badges/46dcae2391a2a7f5dcb5/maintainability)](https://codeclimate.com/github/ninoseki/sleep_warm/maintainability)
 
 A web-based low-interaction honeypot build on [Rack](https://github.com/rack/rack). This honeypot is highly inspired by [WOWHoneypot](https://github.com/morihisa/WOWHoneypot).
 
@@ -111,3 +112,29 @@ Sleep Warm outputs 3 log files.
 #### Application log(`/var/log/sleep-warm/application.log`)
 
 - Application log of the honeypot.
+
+## Default UFW settings
+
+```sh
+ufw default DENY
+ufw allow 80/tcp
+ufw allow 9292/tcp
+ufw allow 22/tcp
+ufw allow 2222/tcp
+```
+
+```sh
+# /etc/ufw/before.rules
+....
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 9292
+COMMIT
+
+*filter
+:ufw-before-input - [0:0]
+:ufw-before-output - [0:0]
+:ufw-before-forward - [0:0]
+:ufw-not-local - [0:0]
+....
+```
