@@ -8,7 +8,9 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end
 
-attr_reader :app
+def app
+  @app
+end
 
 def mock_app(&builder)
   @app = Rack::Builder.new(&builder)
