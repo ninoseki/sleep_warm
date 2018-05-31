@@ -8,15 +8,15 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end
 
+def app
+  @app
+end
+
+def mock_app(&builder)
+  @app = Rack::Builder.new(&builder)
+end
+
 RSpec.shared_context "rackapp testing", shared_context: :metadata do
-  def app
-    @app
-  end
-
-  def mock_app(&builder)
-    @app = Rack::Builder.new(&builder)
-  end
-
   before :all do
     @access_log = StringIO.new
     @application_log = StringIO.new
@@ -39,14 +39,6 @@ RSpec.shared_context "rackapp testing", shared_context: :metadata do
 end
 
 RSpec.shared_context "spyup testing", shared_context: :metadata do
-  def app
-    @app
-  end
-
-  def mock_app(&builder)
-    @app = Rack::Builder.new(&builder)
-  end
-
   before :all do
     @access_log = StringIO.new
     @application_log = StringIO.new
@@ -63,14 +55,6 @@ RSpec.shared_context "spyup testing", shared_context: :metadata do
 end
 
 RSpec.shared_context "huntup testing", shared_context: :metadata do
-  def app
-    @app
-  end
-
-  def mock_app(&builder)
-    @app = Rack::Builder.new(&builder)
-  end
-
   before :all do
     @hunting_log = StringIO.new
     hunting_logger = SleepWarm::HuntingLogger.new(@hunting_log)
