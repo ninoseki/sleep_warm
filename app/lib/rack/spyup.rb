@@ -1,6 +1,5 @@
 module Rack
   class SpyUp < BaseUp
-
     attr_reader :app
     attr_accessor :access_logger
     attr_accessor :application_logger

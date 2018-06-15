@@ -3,7 +3,6 @@ require "yaml"
 
 module SleepWarm
   class MRR
-
     # Returns a matched SleepWarm::Rule based on the input
     #
     # @param [Hash] input
@@ -50,7 +49,6 @@ module SleepWarm
   end
 
   class Rule
-
     attr_reader :path
     attr_reader :attributes
 
@@ -72,32 +70,32 @@ module SleepWarm
     end
 
     def trigger
-      @trigger ||= attributes.dig("trigger")
+      @trigger ||= attributes.dig("trigger") || {}
     end
 
     def response
-      @response ||= attributes.dig("response")
+      @response ||= attributes.dig("response") || {}
     end
 
     def valid?
       return false unless attributes.is_a? Hash
       begin
-        has_meta? && has_trigger? && has_response?
+        meta? && trigger? && response?
       rescue NoMethodError
         false
       end
     end
 
-    def has_response?
+    def response?
       ["status", "body"].all? { |key| response.key? key }
     end
 
-    def has_trigger?
+    def trigger?
       ["method", "header", "uri", "body"].any? { |key| trigger.key? key }
     end
 
-    def has_meta?
-      [id, note, enable?].all? { |e| !e.nil? }
+    def meta?
+      [id, note, enable?].all?
     end
   end
 end

@@ -2,7 +2,6 @@ require "base64"
 
 module Rack
   class HuntUp < BaseUp
-
     attr_reader :app
     attr_reader :hunter
     attr_accessor :hunting_logger
