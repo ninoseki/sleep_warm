@@ -2,7 +2,6 @@ require "base64"
 
 module Rack
   class BaseUp
-
     private
 
     # Returns HTTP reqest information
@@ -60,10 +59,10 @@ module Rack
       req.env.each do |key, value|
         next unless key.include? "HTTP_"
         parts = key.scan(/^HTTP_([A-Z_]+)/).flatten.first
-        _key = parts.split('_').map do |part|
-          part.sub(/(?<=^[A-Z])[A-Z]*/) { |m| m.downcase }
+        new_key = parts.split('_').map do |part|
+          part.sub(/(?<=^[A-Z])[A-Z]*/, &:downcase)
         end.join("-")
-        headers << "#{_key}: #{value}"
+        headers << "#{new_key}: #{value}"
       end
       headers.sort
     end

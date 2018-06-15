@@ -2,7 +2,6 @@ require "logger"
 require "time"
 
 module SleepWarm
-
   class ApplicationLogger < ::Logger; end
 
   class AccessLogger < ::Logger
