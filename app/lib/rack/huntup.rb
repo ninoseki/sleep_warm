@@ -34,7 +34,7 @@ module Rack
       req = Rack::Request.new(env)
 
       hits = hunter.hunt(request_info(req))
-      logger.tagged("hunting") { logger.info(hunting_info(req, hits)) } if hits
+      logger.info(hunting_info(req, hits)) if hits
 
       @app.call(env)
     end

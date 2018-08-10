@@ -2,13 +2,14 @@
 
 [![Build Status](https://travis-ci.org/ninoseki/sleep_warm.svg?branch=master)](https://travis-ci.org/ninoseki/sleep_warm)
 [![Maintainability](https://api.codeclimate.com/v1/badges/46dcae2391a2a7f5dcb5/maintainability)](https://codeclimate.com/github/ninoseki/sleep_warm/maintainability)
+[![Coverage Status](https://coveralls.io/repos/github/ninoseki/sleep_warm/badge.svg?branch=master)](https://coveralls.io/github/ninoseki/sleep_warm?branch=master)
 
 A web-based low-interaction honeypot build on [Rack](https://github.com/rack/rack). This honeypot is highly inspired by [WOWHoneypot](https://github.com/morihisa/WOWHoneypot).
 
 ## Concepts
 
 - Easy to install.
-  - Just execute [Itamae](http://itamae.kitchen/) scripts.
+  - One-click deploy to Heroku or just execute [Itamae](http://itamae.kitchen/) scripts.
 - Easy to customize.
   - Matching rules and default responses are customizable via editing YAML files.
 - Well tested.
@@ -21,14 +22,19 @@ A web-based low-interaction honeypot build on [Rack](https://github.com/rack/rac
 
 ### Prerequirement
 
-You will need:
+You will need an Elasticsearch instance for log analysis because Sleep Warm can only deal with Logstash logging.
 
-- Ruby
-- [Itamae](http://itamae.kitchen/)
-- An ELK stack for log analysis
-  -
+### Deploy on Heroku
 
-### How to install
+You can deploy Sleep Warm on Heroku by clicking the button below and follow the instructions.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+### Deploy by Itamae
+
+You can automatically deploy Sleep Warm on Ubuntu by using [Itamae](http://itamae.kitchen/).
+
+You will need Ruby 2.5 & Itamae for the auto deployment.
 
 ```sh
 $ git clone https://github.com/ninoseki/sleep_warm.git
@@ -41,11 +47,7 @@ $ itamae ssh -h HOST -u USER cookbooks/sleep_warm/ufw.rb
 
 And then the honeypot works as `sleep-warm.service` on `80/tcp` and `9292/tcp`.
 
-## Directory structure
-
-- `/opt/sleep-warm`: The main directory of the honeypot.
-
-### Matching rules
+## Matching rules
 
 Matching rules are stored in `/opt/sleep-warm/app/rules` as YAML files.
 
@@ -72,11 +74,11 @@ response:
 
 The rule mataches a request which  HTTP method is `GET` and request URI contains `hoge` and header contains `hoge` and body contains `hoge`.
 
-### Log
+## Log
 
-Sleep Warm outputs 3 types of logs.
+Sleep Warm outputs 2 types of logs.
 
-#### Access log
+### Access log
 
 - Access log to the honeypot.
 
@@ -91,7 +93,7 @@ Sleep Warm outputs 3 types of logs.
 | rule_id      | Matched rule id             | `1001`                  |
 | all          | Base64 encoded HTTP request | -                       |
 
-#### Hunting log
+### Hunting log
 
 - Hunting log to the honeypot.
 
@@ -101,28 +103,3 @@ Sleep Warm outputs 3 types of logs.
 | commands  | Commands which try to download something | `wget http://example.com/hoge.bin` |
 
 
-## Default UFW settings
-
-```sh
-ufw default DENY
-ufw allow 80/tcp
-ufw allow 9292/tcp
-ufw allow 22/tcp
-ufw allow 2222/tcp
-```
-
-```sh
-# /etc/ufw/before.rules
-....
-*nat
-:PREROUTING ACCEPT [0:0]
--A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 9292
-COMMIT
-
-*filter
-:ufw-before-input - [0:0]
-:ufw-before-output - [0:0]
-:ufw-before-forward - [0:0]
-:ufw-not-local - [0:0]
-....
-```

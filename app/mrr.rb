@@ -6,10 +6,10 @@ module SleepWarm
     # Returns a matched SleepWarm::Rule based on the input
     #
     # @param [Hash] input
-    # @ptions input [String] :method HTTP method
-    # @ptions input [String] :uri URI
-    # @ptions input [String] :header HTTP header
-    # @ptions input [String] :body HTTP body
+    # @options input [String] :method HTTP method
+    # @options input [String] :uri URI
+    # @options input [String] :header HTTP header
+    # @options input [String] :body HTTP body
     # @return [SleepWarm::Rule, nil] The matched rule or nil if there is no matched one.
     def find(input = { method: nil, uri: nil, header: nil, body: nil })
       input = input.compact.map { |k, v| [k.to_s, v] }.to_h
