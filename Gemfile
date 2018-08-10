@@ -7,6 +7,7 @@ gem "rack", "~> 2.0"
 gem "require_all", "~> 2.0"
 
 group :development, :test do
+  gem "foreman", "~> 0.82"
   gem "pry", "~> 0.11"
   gem "rack-test", "~> 1.0"
   gem "rake", "~> 12.3"
