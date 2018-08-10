@@ -52,5 +52,8 @@ DEPENDENCIES
   rspec (~> 3.7)
   shotgun (~> 0.9)
 
+RUBY VERSION
+   ruby 2.5.1p57
+
 BUNDLED WITH
    1.16.3

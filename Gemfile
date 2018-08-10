@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby "~> 2.5.0"
+
 gem "dotenv", "~> 2.4"
 gem "logstash-logger", "~> 0.26"
 gem "puma", "~> 3.11"
