@@ -6,13 +6,13 @@ execute "yes | sudo apt-add-repository ppa:brightbox/ruby-ng" do
 end
 
 execute "sudo apt-get update" do
-  not_if "dpkg -l ruby2.4"
+  not_if "dpkg -l ruby2.5"
 end
 
-"ruby2.4 ruby2.4-dev ruby-switch".split.each { |name| package name }
+"ruby2.5 ruby2.5-dev ruby-switch".split.each { |name| package name }
 
-execute "sudo ruby-switch --set ruby 2.4" do
-  not_if "ruby -v | grep 2.4"
+execute "sudo ruby-switch --set ruby 2.5" do
+  not_if "ruby -v | grep 2.5"
 end
 
 gem_package "bundler"

@@ -9,10 +9,10 @@ describe SleepWarm::Application do
       get 'http://example.com/'
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("GET http://example.com")
-      expect(access_log).to end_with("\n")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["request_line"]).to include("GET http://example.com")
     end
   end
 
@@ -23,9 +23,9 @@ describe SleepWarm::Application do
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
 
-      @access_log.rewind
-      access_log = @access_log.read
-      decoded_req = Base64.decode64(access_log.split.last)
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      decoded_req = Base64.decode64(log["all"])
       expect(decoded_req).to include("GET http://example.com")
       expect(decoded_req).to include("User-Agent: Firefox")
     end
@@ -37,9 +37,9 @@ describe SleepWarm::Application do
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
 
-      @access_log.rewind
-      access_log = @access_log.read
-      decoded_req = Base64.decode64(access_log.split.last)
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      decoded_req = Base64.decode64(log["all"])
       expect(decoded_req).to include("POST http://example.com")
     end
   end
@@ -60,17 +60,17 @@ EOF
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty
 
-      @access_log.rewind
-      access_log = @access_log.read
-      decoded_req = Base64.decode64(access_log.split.last)
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      decoded_req = Base64.decode64(log["all"])
       expect(decoded_req).to include("POST http://example.com")
       expect(decoded_req).to include("Content-Length: #{input.length}")
       expect(decoded_req).to include("Content-Type: application/x-www-form-urlencoded")
       expect(decoded_req).to include("foo")
 
-      @hunting_log.rewind
-      hunting_log = @hunting_log.read
-      expect(hunting_log).to include("wget http://example.com/hoge.bin")
+      queue = io_to_queue(@huntup_log)
+      log = queue.last
+      expect(log["hits"]).to include("wget http://example.com/hoge.bin")
     end
   end
 end

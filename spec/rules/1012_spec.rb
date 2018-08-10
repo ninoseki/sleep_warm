@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       get 'http://example.com/getcfg.php'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("DEVICE.ACCOUNT")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("GET http://example.com/getcfg.php")
-      expect(access_log).to include("1012")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1012)
     end
   end
 end

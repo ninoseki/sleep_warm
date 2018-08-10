@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       post 'http://example.com/', "getcfg/DEVICE.ACCOUNT.xml"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("DEVICE.ACCOUNT")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("POST http://example.com/")
-      expect(access_log).to include("1024")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1024)
     end
   end
 end

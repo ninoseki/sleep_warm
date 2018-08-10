@@ -15,7 +15,7 @@ module SleepWarm
       input = input.compact.map { |k, v| [k.to_s, v] }.to_h
       matched = valid_rules.select do |rule|
         rule.trigger.all? do |k, v|
-          input.dig(k) && input.dig(k).match?(v)
+          input.dig(k)&.match?(v)
         end
       end
       # if there are multiple muthecd rules, return the last one.

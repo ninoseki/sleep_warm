@@ -8,10 +8,10 @@ describe SleepWarm::Application do
       expect(last_response.body).to include("JBoss")
       expect(last_response.header["Server"]).to eq("Apache-Coyote/1.1")
       expect(last_response.header["X-Powered-By"]).to eq('Servlet/3.0; JBossAS-6')
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("GET http://example.com/HTTPServerILServlet")
-      expect(access_log).to include("1026")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1026)
     end
   end
 end

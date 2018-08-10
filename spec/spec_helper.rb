@@ -1,11 +1,23 @@
 require_relative '../app/config/environment'
+require 'helpers'
 
 require 'rack/test'
 
+require 'coveralls'
+Coveralls.wear!
+
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+  config.include Helpers
   config.order = 'default'
   config.shared_context_metadata_behavior = :apply_to_host_groups
+end
+
+# Suppress STDOUT output
+RSpec.configure do |config|
+  config.before do
+    allow($stdout).to receive(:puts)
+  end
 end
 
 def app
@@ -18,20 +30,18 @@ end
 
 RSpec.shared_context "rackapp testing", shared_context: :metadata do
   before :all do
-    @access_log = StringIO.new
-    @application_log = StringIO.new
-    @hunting_log = StringIO.new
-    access_logger = SleepWarm::AccessLogger.new(@access_log)
-    application_logger = SleepWarm::ApplicationLogger.new(@application_log)
-    hunting_logger = SleepWarm::HuntingLogger.new(@hunting_log)
+    @spyup_log = StringIO.new
+    spyup_logger = LogStashLogger.new(type: :io, io: @spyup_log)
+
+    @huntup_log = StringIO.new
+    huntup_logger = LogStashLogger.new(type: :io, io: @huntup_log)
+
     mock_app do
       use Rack::SpyUp do |mw|
-        mw.access_logger = access_logger
-        mw.application_logger = application_logger
+        mw.logger = spyup_logger
       end
       use Rack::HuntUp do |mw|
-        mw.hunting_logger = hunting_logger
-        mw.application_logger = application_logger
+        mw.logger = huntup_logger
       end
       run SleepWarm::Application.new
     end
@@ -40,14 +50,12 @@ end
 
 RSpec.shared_context "spyup testing", shared_context: :metadata do
   before :all do
-    @access_log = StringIO.new
-    @application_log = StringIO.new
-    access_logger = SleepWarm::AccessLogger.new(@access_log)
-    application_logger = SleepWarm::ApplicationLogger.new(@application_log)
+    @spyup_log = StringIO.new
+    spyup_logger = LogStashLogger.new(type: :io, io: @spyup_log)
+
     mock_app do
       use Rack::SpyUp do |mw|
-        mw.access_logger = access_logger
-        mw.application_logger = application_logger
+        mw.logger = spyup_logger
       end
       run SleepWarm::Application.new
     end
@@ -56,14 +64,12 @@ end
 
 RSpec.shared_context "huntup testing", shared_context: :metadata do
   before :all do
-    @hunting_log = StringIO.new
-    hunting_logger = SleepWarm::HuntingLogger.new(@hunting_log)
-    @application_log = StringIO.new
-    application_logger = SleepWarm::ApplicationLogger.new(@application_log)
+    @huntup_log = StringIO.new
+    huntup_logger = LogStashLogger.new(type: :io, io: @huntup_log)
+
     mock_app do
       use Rack::HuntUp do |mw|
-        mw.hunting_logger = hunting_logger
-        mw.application_logger = application_logger
+        mw.logger = huntup_logger
       end
       run SleepWarm::Application.new
     end

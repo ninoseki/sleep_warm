@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       get 'http://example.com/etc/passwd'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("root")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("GET http://example.com/etc/passwd")
-      expect(access_log).to include("1019")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1019)
     end
   end
 end

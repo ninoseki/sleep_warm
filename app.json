@@ -1,0 +1,17 @@
+{
+  "name": "Sleep Warm",
+  "description": "A web-based low-interaction honeypot build on Rack.",
+  "keywords": [
+    "security", "honeypot"
+  ],
+  "website": "https://github.com/ninoseki/sleep_warm",
+  "repository": "https://github.com/ninoseki/sleep_warm",
+  "env": {
+    "LOGSTASH_HOST": {
+      "description": "The hostname which LogStash sends the data for."
+    },
+    "LOGSTASH_PORT": {
+      "description": "The port which LogStash sends the data for."
+    }
+  }
+}

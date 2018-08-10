@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       post 'http://example.com/', "whoami"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("root")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("POST http://example.com/")
-      expect(access_log).to include("1014")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1014)
     end
   end
 end
