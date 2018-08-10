@@ -7,10 +7,10 @@ describe SleepWarm::Application do
       get 'http://example.com/'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("Struts2045")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("GET http://example.com/")
-      expect(access_log).to include("1009")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1009)
     end
   end
 end

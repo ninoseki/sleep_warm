@@ -4,16 +4,14 @@ module Rack
   class HuntUp < BaseUp
     attr_reader :app
     attr_reader :hunter
-    attr_accessor :hunting_logger
-    attr_accessor :application_logger
+    attr_accessor :logger
 
     # @param [#call] app
     # @param [Proc] instance_configure
     def initialize(app, &instance_configure)
       @app = app
       @hunter = SleepWarm::Hunter.new
-      @hunting_loggfer = self.class.config.hunting_logger
-      @application_logger = self.class.config.application_logger
+      @logger = self.class.config.logger
       instance_configure.call(self) if block_given?
 
       bootstrap_logging
@@ -38,7 +36,7 @@ module Rack
       req = Rack::Request.new(env)
 
       hits = hunter.hunt(request_info(req))
-      hunting_logger.info hunting_info(req, hits) if hits
+      logger.tagged("hunting") { logger.info(hunting_info(req, hits)) } if hits
 
       @app.call(env)
     end
@@ -47,7 +45,7 @@ module Rack
 
     # Logs to the application log
     def bootstrap_logging
-      application_logger.info "#{hunter.rules.length} hunting rule(s) loaded"
+      logger.tagged("application") { logger.info "#{hunter.rules.length} hunting rule(s) loaded" }
     end
 
     # Returns a hunting information for logging.
@@ -58,7 +56,7 @@ module Rack
     def hunting_info(req, hits)
       {
         client_ip: req.env["REMOTE_ADDR"],
-        hits: hits
+        hits: hits.join(",")
       }
     end
   end

@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       get 'http://example.com/phpMyAdmin/'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("phpmyadmin")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("GET http://example.com/phpMyAdmin/")
-      expect(access_log).to include("1007")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1007)
     end
   end
 end

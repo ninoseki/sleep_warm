@@ -1,8 +1,7 @@
 module Rack
   class SpyUp < BaseUp
     attr_reader :app
-    attr_accessor :access_logger
-    attr_accessor :application_logger
+    attr_accessor :logger
     attr_reader :mrr
 
     # @param [#call] app
@@ -10,8 +9,7 @@ module Rack
     def initialize(app, &instance_configure)
       @app = app
       @mrr = SleepWarm::MRR.new
-      @access_logger = self.class.config.access_logger
-      @application_logger = self.class.config.application_logger
+      @logger = self.class.config.logger
 
       instance_configure.call(self) if block_given?
 
@@ -41,7 +39,7 @@ module Rack
       matched_rule = mrr.find({ method: req.request_method, uri: req.url, header: req.env.to_s, body: body(req) })
       res = response_from_rule(matched_rule) if matched_rule
 
-      access_logger.info access_info(req, res, matched_rule)
+      logger.tagged("access") { logger.info access_info(req, res, matched_rule) }
 
       res.finish
     end
@@ -61,8 +59,8 @@ module Rack
 
     # Logging application log
     def bootstrap_logging
-      application_logger.info "#{mrr.valid_rules.length} matching rule(s) loaded."
-      application_logger.info "#{mrr.invalid_rules.length} matching rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." unless mrr.invalid_rules.empty?
+      logger.tagged("application") { logger.info "#{mrr.valid_rules.length} matching rule(s) loaded." }
+      logger.tagged("application") { logger.info "#{mrr.invalid_rules.length} matching rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." } unless mrr.invalid_rules.empty?
     end
 
     # Returns an access information for logging.

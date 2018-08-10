@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       post 'http://example.com/wls-wsat/CoordinatorPortType'
       expect(last_response.status).to eq(500)
       expect(last_response.body).to include("xml")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("POST http://example.com/wls-wsat/CoordinatorPortType")
-      expect(access_log).to include("1041")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1041)
     end
   end
 end

@@ -7,10 +7,10 @@ describe SleepWarm::Application do
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq("42d388f8b1db997faaf7dab487f11290")
       expect(last_response.header["Server"]).to eq("Apache-Coyote/1.1")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("GET http://example.com/diZPqEAuJM.jsp")
-      expect(access_log).to include("1021")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1021)
     end
   end
 end

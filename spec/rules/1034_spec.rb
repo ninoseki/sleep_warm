@@ -10,10 +10,10 @@ describe SleepWarm::Application do
       expect(last_response.header["Server"]).to eq("Apache-Coyote/1.1")
       expect(last_response.header["Expires"]).to eq("Thu, 01 Jan 1970 00:00:00 GMT")
       expect(last_response.header["Set-Cookie"]).to eq("JSESSIONID=93F0540DD116537763C29FDF67102DCF")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("GET http://example.com/manager/")
-      expect(access_log).to include("1034")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1034)
     end
   end
 end

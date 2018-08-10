@@ -6,10 +6,10 @@ describe SleepWarm::Application do
       get 'http://example.com/wp-config.php'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("WordPress")
-      @access_log.rewind
-      access_log = @access_log.read
-      expect(access_log).to include("GET http://example.com/wp-config.php")
-      expect(access_log).to include("1039")
+
+      queue = io_to_queue(@spyup_log)
+      log = queue.last
+      expect(log["rule_id"]).to eq(1039)
     end
   end
 end
