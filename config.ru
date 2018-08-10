@@ -1,21 +1,20 @@
 require_relative "app/config/environment"
 require "dotenv/load"
 
-def logstash_config
-  ENV.select do |k, _|
-    k.start_with? "LOGSTASH" && k != "LOGSTASH_HOST" && k != "LOGSTASH_PORT"
-  end.map do |k, v|
-    [k.split("_")[1..-1].join("_"), v]
-  end.to_h
+def has_logstash_settings?
+  ENV.key?("LOGSTASH_HOST") && ENV.key?("LOGSTASH_PORT")
 end
 
-LogStashLogger.configure do |config|
-  config.customize_event do |event|
-    event["token"] = ENV["LOGSTASH_TOKEN"] if ENV.key? "LOGSTASH_TOKEN"
+if has_logstash_settings?
+  logger = LogStashLogger.new(type: :tcp, host: ENV["LOGSTASH_HOST"], port: ENV["LOGSTASH_PORT"])
+  LogStashLogger.configure do |config|
+    config.customize_event do |event|
+      event["token"] = ENV["LOGSTASH_TOKEN"] if ENV.key? "LOGSTASH_TOKEN"
+    end
   end
+else
+  logger = LogStashLogger.new(type: :stdout)
 end
-
-logger = LogStashLogger.new(type: :tcp, host: ENV["LOGSTASH_HOST"], port: ENV["LOGSTASH_PORT"])
 
 use Rack::SpyUp do |config|
   config.logger = logger

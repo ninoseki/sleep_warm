@@ -1,5 +1,5 @@
 module Rack
-  class SpyUp
+  class BaseUp
     class Configuration
       attr_accessor :logger
 
