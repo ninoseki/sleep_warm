@@ -3,11 +3,21 @@ require 'helpers'
 
 require 'rack/test'
 
+require 'coveralls'
+Coveralls.wear!
+
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include Helpers
   config.order = 'default'
   config.shared_context_metadata_behavior = :apply_to_host_groups
+end
+
+# Suppress STDOUT output
+RSpec.configure do |config|
+  config.before do
+    allow($stdout).to receive(:puts)
+  end
 end
 
 def app

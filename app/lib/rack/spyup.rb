@@ -6,14 +6,14 @@ module Rack
 
     # @param [#call] app
     # @param [Proc] instance_configure
-    def initialize(app, &instance_configure)
+    def initialize(app)
       @app = app
       @mrr = SleepWarm::MRR.new
       @logger = self.class.config.logger
 
-      instance_configure.call(self) if block_given?
+      yield(self) if block_given?
 
-      bootstrap_logging
+      startup_information
     end
 
     class << self
@@ -21,9 +21,9 @@ module Rack
       #
       # @param [Proc] global_configure
       # return [Rack::SpyUp::Configuration]
-      def config(&global_configure)
+      def config
         @__config ||= Rack::SpyUp::Configuration.default
-        global_configure.call(@__config) if block_given?
+        yield(@__config) if block_given?
         @__config
       end
     end
@@ -36,7 +36,7 @@ module Rack
       status_code, header, body = @app.call(env)
       res = Rack::Response.new(body, status_code, header)
 
-      matched_rule = mrr.find({ method: req.request_method, uri: req.url, header: req.env.to_s, body: body(req) })
+      matched_rule = mrr.find(method: req.request_method, uri: req.url, header: req.env.to_s, body: body(req))
       res = response_from_rule(matched_rule) if matched_rule
 
       logger.tagged("access") { logger.info access_info(req, res, matched_rule) }
@@ -57,10 +57,9 @@ module Rack
 
     private
 
-    # Logging application log
-    def bootstrap_logging
-      logger.tagged("application") { logger.info "#{mrr.valid_rules.length} matching rule(s) loaded." }
-      logger.tagged("application") { logger.info "#{mrr.invalid_rules.length} matching rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." } unless mrr.invalid_rules.empty?
+    def startup_information
+      STDOUT.puts "#{mrr.valid_rules.length} matching rule(s) loaded."
+      STDERR.puts "#{mrr.invalid_rules.length} matching rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." unless mrr.invalid_rules.empty?
     end
 
     # Returns an access information for logging.
@@ -70,15 +69,19 @@ module Rack
     # @param [SleepWarm::Rule] rule
     # @return [Hash]
     def access_info(req, res, rule)
-      {
+      info = {
         client_ip: req.env["HTTP_X_FORWARDED_FOR"] || req.env["REMOTE_ADDR"],
         hostname: req.host_with_port,
         request_line: request_line(req),
         version: req.env["HTTP_VERSION"],
         status_code: res.status,
         rule_id: rule ? rule.id : "None",
-        all: base64_encoded_request(req)
+        all: base64_encoded_request(req),
+        type: "sleep-warm-access"
       }
+      info[:message] = "#{info[:client_ip]} #{info[:hostname]} \"#{info[:request_line]} #{info[:version]}\" #{info[:status_code]} #{info[:rule_id]} #{info[:all]}"
+
+      info
     end
   end
 end

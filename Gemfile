@@ -9,6 +9,7 @@ gem "rack", "~> 2.0"
 gem "require_all", "~> 2.0"
 
 group :development, :test do
+  gem 'coveralls', "~> 0.8", require: false
   gem "foreman", "~> 0.82"
   gem "itamae", "~> 1.9"
   gem "pry", "~> 0.11"
