@@ -36,10 +36,11 @@ module Rack
       status_code, header, body = @app.call(env)
       res = Rack::Response.new(body, status_code, header)
 
-      matched_rule = mrr.find(method: req.request_method, uri: req.url, header: req.env.to_s, body: body(req))
+      input = { method: req.request_method, uri: req.url, header: req.env.to_s, body: request_body(req) }
+      matched_rule = mrr.find(input)
       res = response_from_rule(matched_rule) if matched_rule
 
-      logger.tagged("access") { logger.info access_info(req, res, matched_rule) }
+      logger.info access_info(req, res, matched_rule)
 
       res.finish
     end

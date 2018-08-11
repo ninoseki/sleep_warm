@@ -12,7 +12,7 @@ module Rack
       arr << request_line(req)
       arr += request_headers(req)
 
-      body = body(req)
+      body = request_body(req)
       unless body.empty?
         arr << ""
         arr << body
@@ -29,11 +29,11 @@ module Rack
       Base64.strict_encode64 request_info(req)
     end
 
-    # Returns Rack::Response body
+    # Returns Rack::Request body
     #
     # @param [Rack::Request] req
     # @return [String]
-    def body(req)
+    def request_body(req)
       body = req.body.read
       req.body.rewind
       body
