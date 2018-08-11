@@ -76,11 +76,11 @@ module Rack
         request_line: request_line(req),
         version: req.env["HTTP_VERSION"],
         status_code: res.status,
-        rule_id: rule ? rule.id : "None",
+        rule_id: rule ? rule.id : 0,
         all: base64_encoded_request(req),
         type: "sleep-warm-access"
       }
-      info[:message] = "#{info[:client_ip]} #{info[:hostname]} \"#{info[:request_line]} #{info[:version]}\" #{info[:status_code]} #{info[:rule_id]} #{info[:all]}"
+      info[:message] = "#{info[:client_ip]} #{info[:hostname]} \"#{info[:request_line]} #{info[:version]}\" #{info[:status_code]} #{info[:rule_id]}"
 
       info
     end

