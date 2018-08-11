@@ -28,7 +28,8 @@ You will need an Elasticsearch instance for log analysis because Sleep Warm can 
 
 You can deploy Sleep Warm on Heroku by clicking the button below and follow the instructions.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ninoseki/sleep_warm)
+
 
 ### Deploy by Itamae
 

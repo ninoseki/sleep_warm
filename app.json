@@ -16,7 +16,8 @@
       "required": true
     },
     "LOGSTASH_TOKEN": {
-      "description": "(Optional) The token which Logstash sends the data with."
+      "description": "(Optional) The token which Logstash sends the data with.",
+      "required": false
     },
     "image": "heroku/ruby"
   }
