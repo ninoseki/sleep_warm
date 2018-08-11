@@ -47,6 +47,19 @@ $ itamae ssh -h HOST -u USER cookbooks/sleep_warm/ufw.rb
 
 And then the honeypot works as `sleep-warm.service` on `80/tcp` and `9292/tcp`.
 
+After the deployment, please set you Elasticsearch settings in `/opt/sleep-warm/.env` and restart the service. (By default, Sleep Warm outputs Logstash log to STDOUT.)
+
+```
+# Do not change this
+RACK_ENV=production
+# The hostname which Logstash sends the data for
+LOGSTASH_HOST=localhost
+# The port which Logstash sends the data for
+LOGSTASH_PORT=9300
+# (Optional) The token which Logstash send the data with.
+LOGSTASH_TOKEN=YOUR_TOKEN
+```
+
 ## Matching rules
 
 Matching rules are stored in `/opt/sleep-warm/app/rules` as YAML files.

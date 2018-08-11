@@ -8,15 +8,15 @@
   "repository": "https://github.com/ninoseki/sleep_warm",
   "env": {
     "LOGSTASH_HOST": {
-      "description": "The hostname which LogStash sends the data for.",
+      "description": "The hostname which Logstash sends the data for.",
       "required": true
     },
     "LOGSTASH_PORT": {
-      "description": "The port which LogStash sends the data for.",
+      "description": "The port which Logstash sends the data for.",
       "required": true
     },
     "LOGSTASH_TOKEN": {
-      "description": "(Optional) The token which LogStash send the data with.",
+      "description": "(Optional) The token which Logstash sends the data with."
     },
     "image": "heroku/ruby"
   }
