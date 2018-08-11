@@ -12,6 +12,7 @@ describe SleepWarm::Application do
 
       queue = io_to_queue(@spyup_log)
       log = queue.last
+      expect(log["rule_id"]).to eq(0)
       expect(log["request_line"]).to include("GET http://example.com")
     end
   end
