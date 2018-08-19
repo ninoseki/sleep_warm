@@ -3,7 +3,7 @@
 describe SleepWarm::Application do
   include_context "spyup testing"
 
-  context "Request which is matched with a rule(id = 1042)" do
+  context "Request which is matched with a rule(id = 1043)" do
     it "should log the rule id" do
       post "http://example.com/whoami"
       expect(last_response.status).to eq(200)
