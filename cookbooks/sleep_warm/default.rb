@@ -1,4 +1,6 @@
-# install Ruby 2.4
+# frozen_string_literal: true
+
+# install Ruby 2.5
 "git build-essential".split.each { |name| package name }
 
 execute "yes | sudo apt-add-repository ppa:brightbox/ruby-ng" do
@@ -50,4 +52,3 @@ execute "sudo systemctl daemon-reload"
     action action
   end
 end
-

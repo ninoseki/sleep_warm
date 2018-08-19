@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require "base64"
 
 module Rack
   class BaseUp
     private
+
     # Returns HTTP request information
     #
     # @param [Rack::Request] req
@@ -67,4 +70,3 @@ module Rack
     end
   end
 end
-
