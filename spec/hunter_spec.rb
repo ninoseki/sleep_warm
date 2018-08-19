@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe SleepWarm::Hunter do
   it "should return if given an input include 'wget'" do
     hunt = subject.hunt("wget http://example.com/hoge.bin")

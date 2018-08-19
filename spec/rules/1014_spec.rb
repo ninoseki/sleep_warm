@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe SleepWarm::Application do
   include_context "spyup testing"
 

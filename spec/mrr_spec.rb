@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe SleepWarm::MRR do
   describe "#parse" do
     it "returns an Array" do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "stringio"
 require "base64"
 
@@ -47,16 +49,16 @@ describe SleepWarm::Application do
 
   context "POST with payload" do
     it "responds with a 200 OK" do
-      input = <<EOF
---AaB03x\r
-Content-Type: text/xml; charset=utf-8\r
-Content-Id: <soap-start>\r
-Content-Transfer-Encoding: 7bit\r
-\r
-foo\r
-wget http://example.com/hoge.bin\r
---AaB03x--\r
-EOF
+      input = <<~EOF
+        --AaB03x\r
+        Content-Type: text/xml; charset=utf-8\r
+        Content-Id: <soap-start>\r
+        Content-Transfer-Encoding: 7bit\r
+        \r
+        foo\r
+        wget http://example.com/hoge.bin\r
+        --AaB03x--\r
+      EOF
       post 'http://example.com', input
       expect(last_response.status).to eq(200)
       expect(last_response.body).not_to be_empty

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Rack
   class HuntUp < BaseUp
     attr_reader :app
