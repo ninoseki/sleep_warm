@@ -1,0 +1,10 @@
+---
+meta:
+  id: 1044
+  enable: true
+  note: PHP backdoor probe
+trigger:
+  uri: "die\\('z!a'.'x'\\);"
+response:
+  status: 200
+  body: z!ax
