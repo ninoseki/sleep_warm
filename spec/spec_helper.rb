@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
+require 'coveralls'
+Coveralls.wear!
+
 require_relative '../app/config/environment'
 require 'helpers'
 
 require 'rack/test'
-
-require 'coveralls'
-Coveralls.wear!
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
