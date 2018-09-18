@@ -60,6 +60,7 @@ module Rack
       headers << "Content-Length: #{req.content_length}" if req.content_length.to_i.positive?
       req.env.each do |key, value|
         next unless key.include? "HTTP_"
+
         parts = key.scan(/^HTTP_([A-Z_]+)/).flatten.first
         new_key = parts.split('_').map do |part|
           part.sub(/(?<=^[A-Z])[A-Z]*/, &:downcase)

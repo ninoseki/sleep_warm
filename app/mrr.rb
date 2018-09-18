@@ -81,6 +81,7 @@ module SleepWarm
 
     def valid?
       return false unless attributes.is_a? Hash
+
       begin
         meta? && trigger? && response?
       rescue NoMethodError
