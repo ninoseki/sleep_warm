@@ -9,7 +9,7 @@ A web-based low-interaction honeypot build on [Rack](https://github.com/rack/rac
 ## Concepts
 
 - Easy to install.
-  - One-click deploy to Heroku or just execute [Itamae](http://itamae.kitchen/) scripts.
+  - One-click deployment to Heroku or just execute [Itamae](http://itamae.kitchen/) scripts.
 - Easy to customize.
   - Matching rules and default responses are customizable via editing YAML files.
 - Well tested.
@@ -48,7 +48,7 @@ $ itamae ssh -h HOST -u USER cookbooks/sleep_warm/ufw.rb
 
 And then the honeypot works as `sleep-warm.service` on `80/tcp` and `9292/tcp`.
 
-After the deployment, please set you Elasticsearch settings in `/opt/sleep-warm/.env` and restart the service. (By default, Sleep Warm outputs Logstash log to STDOUT.)
+After the deployment, please set your Elasticsearch settings in `/opt/sleep-warm/.env` and restart the service. (By default, Sleep Warm outputs Logstash log to STDOUT.)
 
 ```
 # Do not change this
@@ -63,7 +63,7 @@ LOGSTASH_TOKEN=YOUR_TOKEN
 
 ## Matching rules
 
-Matching rules are stored in `/opt/sleep-warm/app/rules` as YAML files.
+The matching rules are stored in `/opt/sleep-warm/app/rules` as YAML files.
 
 The rule file format:
 
@@ -86,7 +86,7 @@ response:
   body: hoge
 ```
 
-The rule mataches a request which  HTTP method is `GET` and request URI contains `hoge` and header contains `hoge` and body contains `hoge`.
+The rule matches a request which  HTTP method is `GET` and request URI contains `hoge` and header contains `hoge` and body contains `hoge`.
 
 ## Log
 
@@ -94,26 +94,25 @@ Sleep Warm outputs 2 types of logs.
 
 ### Access log
 
-- Access log to the honeypot.
+- Access log of the honeypot.
 
-| key          | desc.                       | e.g.                                                            | type   |
-|:-------------|:----------------------------|:----------------------------------------------------------------|:-------|
-| client_ip    | Client IP                   | `10.0.2.2`                                                      | string |
-| hostname     | Hostname                    | `localhost:9292`                                                | string |
-| method       | HTTP method                 | `GET`                                                           | string |
-| uri          | Request URI                 | `http://localhost:9292`                                         | string |
-| http_version | HTTP version                | `HTTP/1.1`                                                      | string |
-| status       | Status code                 | `200`                                                           | number |
-| rule_id      | Matched rule id             | `1001` (if there is no matching results, it will be set as `0`) | number |
-| all          | Base64 encoded HTTP request | -                                                               | string |
+| key          | desc.                       | e.g.                                                                                                                        | type   |
+|:-------------|:----------------------------|:----------------------------------------------------------------------------------------------------------------------------|:-------|
+| client_ip    | Client IP                   | `10.0.2.2`                                                                                                                  | string |
+| hostname     | Hostname                    | `localhost:9292`                                                                                                            | string |
+| method       | HTTP method                 | `GET`                                                                                                                       | string |
+| uri          | Request URI                 | `http://localhost:9292`                                                                                                     | string |
+| http_version | HTTP version                | `HTTP/1.1`                                                                                                                  | string |
+| status       | Status code                 | `200`                                                                                                                       | number |
+| rule_id      | Matched rule id             | `1001` (if there is no matching results, it will be set as `0`)                                                             | number |
+| user_agent   | User agent                  | `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36` | string |
+| all          | Base64 encoded HTTP request | -                                                                                                                           | string |
 
 ### Hunting log
 
-- Hunting log to the honeypot.
+- Hunting log of the honeypot.
 
 | key       | desc.                                    | e.g.                               | type   |
 |:----------|:-----------------------------------------|:-----------------------------------|:-------|
 | client_ip | Client IP                                | `10.0.2.2`                         | string |
 | commands  | Commands which try to download something | `wget http://example.com/hoge.bin` | string |
-
-
