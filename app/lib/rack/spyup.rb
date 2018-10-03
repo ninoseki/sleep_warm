@@ -73,14 +73,15 @@ module Rack
     # @return [Hash]
     def access_info(req, res, rule)
       info = {
+        all: base64_encoded_request(req),
         client_ip: req.env["HTTP_X_FORWARDED_FOR"] || req.env["REMOTE_ADDR"],
         hostname: req.host_with_port,
         request_line: request_line(req),
-        version: req.env["HTTP_VERSION"],
-        status_code: res.status,
         rule_id: rule ? rule.id : 0,
-        all: base64_encoded_request(req),
-        type: "sleep-warm-access"
+        status_code: res.status,
+        type: "sleep-warm-access",
+        user_agent: req.user_agent,
+        version: req.env["HTTP_VERSION"],
       }
       info[:message] = "#{info[:client_ip]} #{info[:hostname]} \"#{info[:request_line]} #{info[:version]}\" #{info[:status_code]} #{info[:rule_id]}"
 
