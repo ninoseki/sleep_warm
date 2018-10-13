@@ -11,17 +11,11 @@ module Rack
     # @param [Rack::Request] req
     # @return [String]
     def request_info(req)
-      arr = []
-      arr << request_line(req)
-      arr += request_headers(req)
-
-      body = request_body(req)
-      unless body.empty?
-        arr << ""
-        arr << body
-      end
-
-      arr.join("\n")
+      [
+        request_line(req),
+        request_headers(req),
+        request_body(req) || ""
+      ].join("\n")
     end
 
     # Returns Base64 encoded HTTP request information
