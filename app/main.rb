@@ -16,7 +16,7 @@ module SleepWarm
     #
     # @return [Array<String>]
     def defaults
-      Dir.glob(File.expand_path("defaults/**/*.yml", __dir__))
+      @defaults ||= Dir.glob(File.expand_path("defaults/**/*.yml", __dir__))
     end
   end
 end

@@ -82,11 +82,7 @@ module SleepWarm
     def valid?
       return false unless attributes.is_a? Hash
 
-      begin
-        meta? && trigger? && response?
-      rescue NoMethodError
-        false
-      end
+      respond_to?(:meta?) && respond_to?(:trigger?) && respond_to?(:response?)
     end
 
     def response?
