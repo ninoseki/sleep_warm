@@ -14,8 +14,8 @@ GEM
     dotenv (2.5.0)
     foreman (0.85.0)
       thor (~> 0.19.1)
-    hashie (3.5.7)
-    itamae (1.9.11)
+    hashie (3.6.0)
+    itamae (1.9.13)
       ansi
       hashie
       schash (~> 0.1.0)
@@ -25,16 +25,16 @@ GEM
     logstash-event (1.2.02)
     logstash-logger (0.26.1)
       logstash-event (~> 1.2)
-    method_source (0.9.0)
+    method_source (0.9.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (5.0.2)
-    net-telnet (0.2.0)
-    pry (0.11.3)
+    net-telnet (0.1.1)
+    pry (0.12.0)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     puma (3.12.0)
-    rack (2.0.5)
+    rack (2.0.6)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rake (12.3.1)
@@ -45,7 +45,7 @@ GEM
       rspec-mocks (~> 3.8.0)
     rspec-core (3.8.0)
       rspec-support (~> 3.8.0)
-    rspec-expectations (3.8.1)
+    rspec-expectations (3.8.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-mocks (3.8.0)
@@ -61,15 +61,15 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    specinfra (2.75.1)
+    specinfra (2.76.3)
       net-scp
       net-ssh (>= 2.7)
-      net-telnet
+      net-telnet (= 0.1.1)
       sfl
-    term-ansicolor (1.6.0)
+    term-ansicolor (1.7.0)
       tins (~> 1.0)
     thor (0.19.4)
-    tins (1.16.3)
+    tins (1.19.0)
 
 PLATFORMS
   ruby
@@ -93,4 +93,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.4
+   1.17.1
