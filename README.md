@@ -16,7 +16,7 @@ A web-based low-interaction honeypot build on [Rack](https://github.com/rack/rac
 
 ## Supported
 
-- Ubuntu 16.04 LTS and Ruby 2.5.
+- Ubuntu 16.04 LTS and Ruby 2.6.
 
 ## Installation
 
