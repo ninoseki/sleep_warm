@@ -4,7 +4,7 @@ describe SleepWarm::Application do
   include_context "spyup testing"
 
   context "Request which is matched a rule(id = 1017)" do
-    it "should log the rule id" do
+    it "logs the rule id" do
       header "User-Agent", "echo 2014;uname -a;w;id;echo 2015"
       get 'http://example.com/'
       expect(last_response.status).to eq(200)

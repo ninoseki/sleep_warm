@@ -62,7 +62,7 @@ module Rack
 
     def startup_information
       STDOUT.puts "#{mrr.valid_rules.length} matching rule(s) loaded."
-      STDERR.puts "#{mrr.invalid_rules.length} matching rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." unless mrr.invalid_rules.empty?
+      warn "#{mrr.invalid_rules.length} matching rule(s) failed to load: #{mrr.invalid_rules.map(&:path).join(',')}." unless mrr.invalid_rules.empty?
     end
 
     # Returns an access information for logging.

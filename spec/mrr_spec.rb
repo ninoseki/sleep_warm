@@ -16,14 +16,15 @@ describe SleepWarm::MRR do
 
   describe "#find" do
     context "input doesn't match any rule" do
-      it "should return false" do
+      it "returns false" do
         input = { method: "NOPE", uri: "NOP" }
         res = subject.find(input)
         expect(res).to eq(nil)
       end
     end
+
     context "input matches a rule" do
-      it "should return true" do
+      it "returns true" do
         input = { method: "GET", uri: "/login" }
         res = subject.find(input)
         expect(res).to be_a(SleepWarm::Rule)
