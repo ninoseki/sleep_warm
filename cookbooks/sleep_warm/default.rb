@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# install Ruby 2.5
+# install Ruby 2.6
 "git build-essential".split.each { |name| package name }
 
 execute "yes | sudo apt-add-repository ppa:brightbox/ruby-ng" do
@@ -8,16 +8,18 @@ execute "yes | sudo apt-add-repository ppa:brightbox/ruby-ng" do
 end
 
 execute "sudo apt-get update" do
-  not_if "dpkg -l ruby2.5"
+  not_if "dpkg -l ruby2.6"
 end
 
-"ruby2.5 ruby2.5-dev ruby-switch".split.each { |name| package name }
+"ruby2.6 ruby2.6-dev ruby-switch".split.each { |name| package name }
 
-execute "sudo ruby-switch --set ruby 2.5" do
-  not_if "ruby -v | grep 2.5"
+execute "sudo ruby-switch --set ruby 2.6" do
+  not_if "ruby -v | grep 2.6"
 end
 
-gem_package "bundler"
+execute "sudo gem install bundler -v 2.0" do
+  not_if "gem list | grep bundler | grep 2.0 "
+end
 
 # install sleep_warm
 user "sleep-warm" do
