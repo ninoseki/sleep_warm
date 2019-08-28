@@ -4,7 +4,7 @@ describe SleepWarm::Application do
   include_context "spyup testing"
 
   context "Request which is matched a rule(id = 1021)" do
-    it "should log the rule id" do
+    it "logs the rule id" do
       get 'http://example.com/diZPqEAuJM.jsp'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq("42d388f8b1db997faaf7dab487f11290")
